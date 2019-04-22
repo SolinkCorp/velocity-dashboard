@@ -27,7 +27,7 @@ module.exports = React.createClass
         @setState config: newConfig
 
     render: ->
-        <Dashboard className='example-dash' title='Dashboard Title' config={@state.config} onConfigChange={@configChange} widgetHeight={250} widgetWidth={250} widgetMargin={15} titleHeight={50} maxColumns={5}>
+        <Dashboard className='example-dash' title='Dashboard Title' config={@state.config} onConfigChange={@configChange} widgetHeight={280} widgetWidth={280} widgetMargin={16} titleHeight={60} maxColumns={8}>
             <Widget id='accident'
                 contentComp={-> <div className='days-since-last'><div className='days'>13</div><div className='text'>days since last accident</div></div>}
                 previewComp={-> <div className='days-since-last preview'><div className='days'>100</div><div className='text'>days since last accident</div></div>}/>

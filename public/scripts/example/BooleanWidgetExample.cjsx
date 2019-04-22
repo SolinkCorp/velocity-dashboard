@@ -7,14 +7,13 @@ module.exports =
         <div>
             <div className='widgetTitle'>System Status</div>
             <div className='widgetBody'>
-                <i className="fa fa-thumbs-up"></i>
+                <i className="zmdi zmdi-thumb_up"></i>
             </div>
         </div>
     Preview: ->
         <div>
             <div className='widgetTitle'>System Status</div>
             <div className='widgetBody'>
-                <i className="fa fa-thumbs-up preview"></i>
+                <i className="zmdi zmdi-thumb_up preview"></i>
             </div>
         </div>
-

@@ -46,12 +46,12 @@ describe 'dashboard', ->
     it "shows add panel when in edit mode", ->
         {dash} = createDash(columns: 3, widgets: ['narrow1', 'wide1', 'wide1'])
         expect(dash.find('.add-widget-panel').length).to.eql 0
-        dash.find('.fa-cogs').simulate('click')
+        dash.find('.zmdi-settings').simulate('click')
         expect(dash.find('.add-widget-panel').length).to.eql 1
 
     it "allows the user to edit a widget's configuration", ->
         {dash} = createDash(columns: 3, widgets: ['narrow1', 'wide1', 'wide1'])
-        dash.find('.fa-cogs').simulate('click')
+        dash.find('.zmdi-settings').simulate('click')
         dash.find('.widget-preview').first().simulate('click')
         expect(onConfigChange.calledOnce).to.eql true
         args = onConfigChange.firstCall.args
@@ -60,7 +60,7 @@ describe 'dashboard', ->
 
     it "allows the user to hide a component", ->
         {dash} = createDash(columns: 3, widgets: ['narrow1', 'wide1', 'wide1'])
-        dash.find('.fa-cogs').simulate('click')
+        dash.find('.zmdi-settings').simulate('click')
         dash.find('.hide-widget-button').first().simulate('click')
         expect(onConfigChange.calledOnce).to.eql true
         args = onConfigChange.firstCall.args
@@ -94,4 +94,3 @@ describe 'dashboard', ->
 
     positionOf = (widget) ->
         [widget.props().style.left, widget.props().style.top]
-

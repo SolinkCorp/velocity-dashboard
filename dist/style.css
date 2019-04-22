@@ -3,51 +3,43 @@
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
+.dashboard .edit-button,
+.dashboard .move-button {
+  border-radius: 60px;
+  cursor: pointer;
+  height: 60px;
+  line-height: 60px;
+  position: fixed;
+  right: 26px;
+  text-align: center;
+  width: 60px;
+  z-index: 2;
+}
+.dashboard .edit-button .zmdi,
+.dashboard .move-button .zmdi {
+  color: white;
+  font-size: 25pt;
+  line-height: 60px;
+}
 .dashboard .edit-button {
   background-color: #2980b9;
-  position: fixed;
-  z-index: 2;
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
-  right: 26px;
-  top: 53px;
   box-shadow: 4px 6px 6px #b7b7b7;
-  cursor: pointer;
+  top: 53px;
 }
 .dashboard .edit-button.editing {
   box-shadow: 1px 1px 6px #b7b7b7;
   top: 58px;
   right: 24px;
 }
-.dashboard .edit-button .fa {
-  color: white;
-  font-size: 25pt;
-  margin-top: 13px;
-  margin-left: 10px;
-}
 .dashboard .move-button {
   background-color: #848484;
-  position: fixed;
-  z-index: 2;
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
-  right: 26px;
-  top: 135px;
   box-shadow: 4px 6px 6px #b7b7b7;
-  cursor: pointer;
+  top: 135px;
 }
 .dashboard .move-button.moving {
   box-shadow: 1px 1px 6px #b7b7b7;
   top: 140px;
   right: 24px;
-}
-.dashboard .move-button .fa {
-  color: white;
-  font-size: 25pt;
-  margin-top: 14px;
-  margin-left: 14px;
 }
 .dashboard .dashboard-container {
   position: absolute;
@@ -147,13 +139,12 @@
   color: rgba(0, 0, 0, 0.06);
 }
 .dashboard .widget .dragbar {
-  height: 21px;
-  width: 10px;
-  position: absolute;
-  background-image: url(grip.png);
-  background-repeat: no-repeat;
-  z-index: 2;
+  color: #a7a7a7;
   margin: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
 }
 .dashboard .widget.draggable {
   cursor: move;
@@ -224,11 +215,11 @@
   -webkit-filter: none;
   filter: none;
 }
-.dashboard .widget-preview:hover:after {
+.dashboard .widget-preview:hover .add-icon {
+  display: block;
+}
+.dashboard .widget-preview .add-icon {
   position: absolute;
-  font: normal normal normal 14px/1 FontAwesome;
-  -webkit-font-smoothing: antialiased;
-  content: "\f055";
   font-size: 31pt;
   text-align: center;
   right: 8px;
@@ -1079,14 +1070,14 @@ body {
 .activity-feed .time {
   float: right;
 }
-.fa-thumbs-up {
+.zmdi-thumb_up {
   font-size: 149px;
   text-align: center;
   width: 100%;
   margin-top: 26px;
   color: #5e89a7;
 }
-.fa-thumbs-up.preview {
+.zmdi-thumb_up.preview {
   font-size: 97px;
   margin-top: -4px;
 }

@@ -44,35 +44,37 @@ Widget = React.createClass
         rendered =
             <div className={classes.join(' ')} style={styles}>
                 {
-                    if isOver
-                        <div className='drop-prompt' style={height: widgetHeight}/>
+                  if isOver
+                      <div className='drop-prompt' style={height: widgetHeight}/>
                 }
                 <div className='widget-inner'>
                     {
-                        if draggable
-                            <div className='dragbar'></div>
+                      if draggable
+                        <span className="dragbar">
+                          <i className="zmdi zmdi-four-up"></i>
+                        </span>
                     }
                     {
-                        if dashEditable and !draggable
-                            if editMode
-                                <a className="edit-widget-button close-button" onClick={@toggleEditMode}>done</a>
-                            else
-                                <span>
-                                    {<i className="fa fa-cog edit-widget-button" onClick={@toggleEditMode}></i> if configComp}
-                                    <i className="fa fa-times hide-widget-button" onClick={onHide}></i>
-                                </span>
-                    }
-                    {
-                        comp = if dashEditable and editMode
-                            if configComp
-                                <div>
-                                    <div className='config-comp'>{React.createElement(configComp, {instanceId, config, onConfigChange})}</div>
-                                    <i className="fa fa-lg fa-cog background-watermark"></i>
-                                </div>
-                            else
-                                <div/>
+                      if dashEditable and !draggable
+                        if editMode
+                            <a className="edit-widget-button close-button" onClick={@toggleEditMode}>done</a>
                         else
-                            if contentComp then React.createElement(contentComp, {instanceId, config}) else <div/>
+                            <span>
+                                {<i className="zmdi zmdi-settings edit-widget-button" onClick={@toggleEditMode}></i> if configComp}
+                                <i className="zmdi zmdi-close hide-widget-button" onClick={onHide}></i>
+                            </span>
+                    }
+                    {
+                      comp = if dashEditable and editMode
+                          if configComp
+                              <div>
+                                  <div className='config-comp'>{React.createElement(configComp, {instanceId, config, onConfigChange})}</div>
+                                  <i className="zmdi zmdi-settings background-watermark"></i>
+                              </div>
+                          else
+                              <div/>
+                      else
+                          if contentComp then React.createElement(contentComp, {instanceId, config}) else <div/>
                     }
                 </div>
             </div>

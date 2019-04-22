@@ -112,14 +112,17 @@ Dashboard = React.createClass
             contentWidth = '90%'
 
         <div className={"dashboard #{className} #{if editMode and !moveMode then 'editing' else ''}"}>
-            <Title height={titleHeight}>{title}</Title>
+            {
+              title &&
+              <Title height={titleHeight}>{title}</Title>
+            }
             <div className="edit-button #{if editMode then 'editing' else ''}" onClick={@toggleEditMode}>
-                <i className="fa fa-cogs" />
+                <i className="zmdi zmdi-settings" />
             </div>
             {
                 if editMode
                     <div className="move-button #{if moveMode then 'moving' else ''}" onClick={@toggleMoveMode}>
-                        <i className="fa fa-arrows" />
+                        <i className="zmdi zmdi-four-up" />
                     </div>
             }
             <div className='dashboard-container' style={top: titleHeight}>
@@ -132,7 +135,12 @@ Dashboard = React.createClass
                 if editMode and !moveMode
                     addPanelChildren = children.map (child) =>
                         preview = if child.props.previewComp then React.createElement(child.props.previewComp) else <div className='default-preview' key={child.props.id}>No Preview</div>
-                        <div className='widget-preview' key={child.props.id} onClick={=>@addWidget(child.props.id)}><div className='no-click'>{preview}</div></div>
+                        <div className='widget-preview' key={child.props.id} onClick={=>@addWidget(child.props.id)}>
+                          <div className='no-click'>
+                            {preview}
+                            <i className="add-icon zmdi zmdi-add" />
+                          </div>
+                        </div>
                     <AddWidgetPanel>{addPanelChildren}</AddWidgetPanel>
             }
             </ReactCSSTransitionGroup>

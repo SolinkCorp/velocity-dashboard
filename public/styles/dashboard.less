@@ -1,54 +1,50 @@
 @addPanelHeight: 200px;
+@buttonSize: 60px;
 
 .dashboard {
     background: #ececec;
     overflow-y: auto;
     -ms-overflow-style: -ms-autohiding-scrollbar;
 
+    .edit-button,
+    .move-button {
+      border-radius: @buttonSize;
+      cursor: pointer;
+      height: @buttonSize;
+      line-height: @buttonSize;
+      position: fixed;
+      right: 26px;
+      text-align: center;
+      width: @buttonSize;
+      z-index: 2;
+
+      .zmdi {
+        color: white;
+        font-size: 25pt;
+        line-height: @buttonSize;
+      }
+    }
+
     .edit-button {
         background-color: #2980b9;
-        position: fixed;
-        z-index: 2;
-        height: 60px;
-        width: 60px;
-        border-radius: 50px;
-        right: 26px;
-        top: 53px;
         box-shadow: 4px 6px 6px #b7b7b7;
-        cursor: pointer;
+        top: 53px;
+
         &.editing {
             box-shadow: 1px 1px 6px #b7b7b7;
             top: 58px;
             right: 24px;
         }
-        .fa {
-            color: white;
-            font-size: 25pt;
-            margin-top: 13px;
-            margin-left: 10px;
-        }
     }
     .move-button {
         background-color: #848484;
-        position: fixed;
-        z-index: 2;
-        height: 60px;
-        width: 60px;
-        border-radius: 50px;
-        right: 26px;
-        top: 135px;
         box-shadow: 4px 6px 6px #b7b7b7;
-        cursor: pointer;
+        top: 135px;
+
         &.moving {
             box-shadow: 1px 1px 6px #b7b7b7;
             top: 140px;
             right: 24px;
-        }
-        .fa {
-            color: white;
-            font-size: 25pt;
-            margin-top: 14px;
-            margin-left: 14px;
         }
     }
 
@@ -115,6 +111,7 @@
             top: 10px;
             color: #a7a7a7;
             cursor: pointer;
+
             &.close-button {
                 color: #2980b9;
                 top: 6px;
@@ -165,14 +162,14 @@
         }
 
         .dragbar {
-            height: 21px;
-            width: 10px;
-            position: absolute;
-            background-image: url(grip.png);
-            background-repeat: no-repeat;
-            z-index: 2;
-            margin: 7px;
+          color: #a7a7a7;
+          margin: 7px;
+          position: absolute;
+          right: 0;
+          top: 0;
+          z-index: 2;
         }
+
         &.draggable {
             cursor: move;
             * {
@@ -188,6 +185,7 @@
                 //border: 3px solid #2980b9;
             }
         }
+
         .drop-prompt {
             content: ' ';
             position: absolute;
@@ -213,6 +211,7 @@
 
     .widget-panel-enter {
         bottom: calc(0 - @addPanelHeight);
+
         &.widget-panel-enter-active {
             bottom: 0;
             transition: bottom .25s ease-in;
@@ -220,6 +219,7 @@
     }
     .widget-panel-leave {
         bottom: 0;
+
         &.widget-panel-leave-active {
             bottom: calc(0 - @addPanelHeight);
             transition: bottom .25s ease-in;
@@ -240,28 +240,33 @@
         overflow: hidden;
         -webkit-filter: grayscale(100%);
         filter: grayscale(100%);
+
         &:hover {
-            background: white;
-            opacity: 1.0;
-            -webkit-filter: none;
-            filter: none;
-            &:after {
-                position: absolute;
-                font: normal normal normal 14px/1 FontAwesome;
-                -webkit-font-smoothing: antialiased;
-                content: "\f055";
-                font-size: 31pt;
-                text-align: center;
-                right: 8px;
-                bottom: 8px;
-                color: #27ae60;
-            }
+          background: white;
+          opacity: 1.0;
+          -webkit-filter: none;
+          filter: none;
+
+          .add-icon {
+            display: block;
+          }
         }
+
+        .add-icon {
+            position: absolute;
+            font-size: 31pt;
+            text-align: center;
+            right: 8px;
+            bottom: 8px;
+            color: #27ae60;
+        }
+
         .default-preview {
             text-align: center;
             padding-top: 60px;
             color: gray;
         }
+
         .widgetTitle {
             position: absolute;
             z-index: 1;
@@ -277,6 +282,7 @@
             bottom: 0;
             right: 0;
         }
+
         .no-click {
             pointer-events: none;
         }
