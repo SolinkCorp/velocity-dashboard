@@ -25,20 +25,19 @@ Dashboard = React.createClass
         cc1 = @layout.columnCount()
         @layout.reset(@state.componentWidth)
         cc2 = @layout.columnCount()
-        nextProps != @props or nextState.editMode != @state.editMode or nextState.moveMode != @state.moveMode or cc1 != cc2
+        nextProps != @props or nextState.editMode != @state.editMode or cc1 != cc2
 
     getInitialState: ->
         editMode: false
-        moveMode: false
 
-    childComponentsForConfig: (components, config, editMode, moveMode, sizeConfig, columnCount) ->
+    childComponentsForConfig: (components, config, editMode, sizeConfig, columnCount) ->
         componentsById = getComponentsById(components)
         instances = config.map (widget) =>
             if componentsById[widget.widgetId]
                 withPositions = @layout.setWidgetPosition(componentsById[widget.widgetId], widget.config)
                 React.cloneElement withPositions,
                     dashEditable: editMode
-                    draggable: moveMode
+                    draggable: editMode
                     key: widget.instanceId
                     onConfigChange: @configChange
                     onHide: => @hideWidget(widget.instanceId)
@@ -48,14 +47,6 @@ Dashboard = React.createClass
                     columnCount: columnCount
                     onDrop: @moveWidget
         _(instances).compact()
-
-    toggleEditMode: ->
-        newEditMode = !@state.editMode
-        @setState editMode: newEditMode
-        @setState(moveMode: false) if !newEditMode
-
-    toggleMoveMode: ->
-        @setState moveMode: !@state.moveMode
 
     hideWidget: (instanceId) ->
         allConfigs = [].concat @props.config
@@ -98,51 +89,55 @@ Dashboard = React.createClass
         @props.onConfigChange config
 
     render: ->
-        {children, title, className, config, widgetHeight = defaults.widgetHeight, widgetWidth = defaults.widgetWidth, widgetMargin = defaults.margin, titleHeight = 50, maxColumns = 5} = @props
-        {editMode, moveMode, componentWidth} = @state
+        {
+          children,
+          title,
+          className,
+          config,
+          widgetHeight = defaults.widgetHeight,
+          widgetWidth = defaults.widgetWidth,
+          widgetMargin = defaults.margin,
+          titleHeight = 50,
+          maxColumns = 5,
+          editMode,
+          componentWidthForTesting,
+        } = @props
+        # {editMode, moveMode, componentWidth} = @state
+        { componentWidth } = @state
         children = [].concat(children)
         sizeConfig = {widgetHeight, widgetWidth, widgetMargin, titleHeight, maxColumns}
 
         @layout = layout = new Layout(sizeConfig)
-        layout.reset(@props.componentWidthForTesting or componentWidth)
-        childrenForCurrentConfig = @childComponentsForConfig(children, config, editMode, moveMode, sizeConfig, layout.columnCount())
+        layout.reset(componentWidthForTesting or componentWidth)
+        childrenForCurrentConfig = @childComponentsForConfig(children, config, editMode, sizeConfig, layout.columnCount())
 
         contentWidth = layout.columnCount() * (widgetWidth + widgetMargin) - widgetMargin
         if layout.columnCount() is 1
             contentWidth = '90%'
 
-        <div className={"dashboard #{className} #{if editMode and !moveMode then 'editing' else ''}"}>
-            {
-              title &&
-              <Title height={titleHeight}>{title}</Title>
-            }
-            <div className="edit-button #{if editMode then 'editing' else ''}" onClick={@toggleEditMode}>
-                <i className="zmdi zmdi-settings" />
-            </div>
-            {
+        <div className={"dashboard #{className} #{if editMode then 'editing' else ''}"}>
+            <section className={"dashboard-content columns-#{layout.columnCount()}"} style={width: contentWidth}>
+                {childrenForCurrentConfig}
+            </section>
+            <ReactCSSTransitionGroup
+              transitionName="widget-panel"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}
+              transitionEnter={true}
+              transitionLeave={true}
+            >
+              {
                 if editMode
-                    <div className="move-button #{if moveMode then 'moving' else ''}" onClick={@toggleMoveMode}>
-                        <i className="zmdi zmdi-four-up" />
+                  addPanelChildren = children.map (child) =>
+                    preview = if child.props.previewComp then React.createElement(child.props.previewComp) else <div className='default-preview' key={child.props.id}>No Preview</div>
+                    <div className='widget-preview' key={child.props.id} onClick={=>@addWidget(child.props.id)}>
+                      <div className='no-click'>
+                        {preview}
+                        <i className="add-icon zmdi zmdi-add" />
+                      </div>
                     </div>
-            }
-            <div className='dashboard-container' style={top: titleHeight}>
-                <div className={"dashboard-content columns-#{layout.columnCount()}"} style={width: contentWidth}>
-                    {childrenForCurrentConfig}
-                </div>
-            </div>
-            <ReactCSSTransitionGroup transitionName="widget-panel" transitionEnterTimeout={500} transitionLeaveTimeout={500} transitionEnter={true} transitionLeave={true}>
-            {
-                if editMode and !moveMode
-                    addPanelChildren = children.map (child) =>
-                        preview = if child.props.previewComp then React.createElement(child.props.previewComp) else <div className='default-preview' key={child.props.id}>No Preview</div>
-                        <div className='widget-preview' key={child.props.id} onClick={=>@addWidget(child.props.id)}>
-                          <div className='no-click'>
-                            {preview}
-                            <i className="add-icon zmdi zmdi-add" />
-                          </div>
-                        </div>
-                    <AddWidgetPanel>{addPanelChildren}</AddWidgetPanel>
-            }
+                  <AddWidgetPanel>{addPanelChildren}</AddWidgetPanel>
+              }
             </ReactCSSTransitionGroup>
         </div>
 

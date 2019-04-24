@@ -24,22 +24,18 @@
 .dashboard .edit-button {
   background-color: #2980b9;
   box-shadow: 4px 6px 6px #b7b7b7;
-  top: 53px;
+  top: 70px;
 }
 .dashboard .edit-button.editing {
   box-shadow: 1px 1px 6px #b7b7b7;
-  top: 58px;
-  right: 24px;
 }
 .dashboard .move-button {
   background-color: #848484;
   box-shadow: 4px 6px 6px #b7b7b7;
-  top: 135px;
+  top: 145px;
 }
 .dashboard .move-button.moving {
   box-shadow: 1px 1px 6px #b7b7b7;
-  top: 140px;
-  right: 24px;
 }
 .dashboard .dashboard-container {
   position: absolute;

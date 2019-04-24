@@ -24,22 +24,18 @@
 .dashboard .edit-button {
   background-color: #2980b9;
   box-shadow: 4px 6px 6px #b7b7b7;
-  top: 53px;
+  top: 70px;
 }
 .dashboard .edit-button.editing {
   box-shadow: 1px 1px 6px #b7b7b7;
-  top: 58px;
-  right: 24px;
 }
 .dashboard .move-button {
   background-color: #848484;
   box-shadow: 4px 6px 6px #b7b7b7;
-  top: 135px;
+  top: 145px;
 }
 .dashboard .move-button.moving {
   box-shadow: 1px 1px 6px #b7b7b7;
-  top: 140px;
-  right: 24px;
 }
 .dashboard .dashboard-container {
   position: absolute;
@@ -1017,17 +1013,18 @@ body {
 }
 .weather-example .wi {
   font-size: 70pt;
-  padding-top: 80px;
   text-align: center;
   width: 100%;
   color: #2980b9;
+  margin-top: 50%;
+  transform: translateY(-50%);
 }
 .weather-example.preview .city {
   font-size: 14pt;
 }
 .weather-example.preview .wi {
   font-size: 50pt;
-  padding-top: 45px;
+  margin-top: 33%;
 }
 .weather-example-config {
   padding: 11px;
@@ -1080,4 +1077,14 @@ body {
 .zmdi-thumb_up.preview {
   font-size: 97px;
   margin-top: -4px;
+}
+.wi:before {
+  position: relative;
+  top: 2px;
+}
+.wi-day-cloudy:before {
+  top: 5px;
+}
+.wi-day-sunny:before {
+  top: 0;
 }

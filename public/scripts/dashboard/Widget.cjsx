@@ -48,34 +48,39 @@ Widget = React.createClass
                       <div className='drop-prompt' style={height: widgetHeight}/>
                 }
                 <div className='widget-inner'>
+                  <section className='action-bar'>
                     {
-                      if draggable
-                        <span className="dragbar">
-                          <i className="zmdi zmdi-four-up"></i>
-                        </span>
-                    }
-                    {
-                      if dashEditable and !draggable
+                      if dashEditable
                         if editMode
-                            <a className="edit-widget-button close-button" onClick={@toggleEditMode}>done</a>
+                            <a className='action-button edit-widget-button close-button' onClick={@toggleEditMode}>
+                              <i className='zmdi zmdi-check'></i>
+                            </a>
                         else
-                            <span>
-                                {<i className="zmdi zmdi-settings edit-widget-button" onClick={@toggleEditMode}></i> if configComp}
-                                <i className="zmdi zmdi-close hide-widget-button" onClick={onHide}></i>
-                            </span>
+                          <span>
+                            {
+                              if configComp
+                                <a className='action-button edit-widget-button' onClick={@toggleEditMode}>
+                                  <i className='zmdi zmdi-settings'></i>
+                                </a>
+                            }
+                            <a className='action-button hide-widget-button' onClick={onHide}>
+                              <i className='zmdi zmdi-close'></i>
+                            </a>
+                          </span>
                     }
-                    {
-                      comp = if dashEditable and editMode
-                          if configComp
-                              <div>
-                                  <div className='config-comp'>{React.createElement(configComp, {instanceId, config, onConfigChange})}</div>
-                                  <i className="zmdi zmdi-settings background-watermark"></i>
-                              </div>
-                          else
-                              <div/>
-                      else
-                          if contentComp then React.createElement(contentComp, {instanceId, config}) else <div/>
-                    }
+                  </section>
+                  {
+                    comp = if dashEditable and editMode
+                        if configComp
+                            <div>
+                                <div className='config-comp'>{React.createElement(configComp, {instanceId, config, onConfigChange})}</div>
+                                <i className='zmdi zmdi-settings background-watermark'></i>
+                            </div>
+                        else
+                            <div/>
+                    else
+                        if contentComp then React.createElement(contentComp, {instanceId, config}) else <div/>
+                  }
                 </div>
             </div>
 

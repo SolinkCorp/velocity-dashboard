@@ -2,10 +2,9 @@
 @buttonSize: 60px;
 
 .dashboard {
-    background: #ececec;
-    overflow-y: auto;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
+  position: relative;
 
+  header.actions {
     .edit-button,
     .move-button {
       border-radius: @buttonSize;
@@ -26,265 +25,270 @@
     }
 
     .edit-button {
-        background-color: #2980b9;
-        box-shadow: 4px 6px 6px #b7b7b7;
-        top: 53px;
+      background-color: #2980b9;
+      box-shadow: 4px 6px 6px #b7b7b7;
+      top: 70px;
 
-        &.editing {
-            box-shadow: 1px 1px 6px #b7b7b7;
-            top: 58px;
-            right: 24px;
-        }
+      &.editing {
+        box-shadow: 1px 1px 6px #b7b7b7;
+      }
     }
     .move-button {
-        background-color: #848484;
-        box-shadow: 4px 6px 6px #b7b7b7;
-        top: 135px;
+      background-color: #848484;
+      box-shadow: 4px 6px 6px #b7b7b7;
+      top: 145px;
 
-        &.moving {
-            box-shadow: 1px 1px 6px #b7b7b7;
-            top: 140px;
-            right: 24px;
-        }
+      &.moving {
+        box-shadow: 1px 1px 6px #b7b7b7;
+        // top: 140px;
+        // right: 24px;
+      }
+    }
+  }
+
+  .dashboard-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+  }
+
+  &.editing .dashboard-container {
+    bottom: @addPanelHeight;
+  }
+
+  .dashboard-content {
+    margin: 18px auto;
+    position: relative;
+
+    &.columns-1 {
+      .widget {
+        width: 100%;
+      }
+    }
+  }
+
+  .title {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 8px 14px;
+    vertical-align: bottom;
+    font-size: 19pt;
+    text-transform: uppercase;
+    color: gray;
+  }
+
+  .widget {
+    background: white;
+    box-shadow: 1px 1px 5px #b7b7b7;
+    display: inline-block;
+    position: absolute;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    padding: 8px;
+    @animation-speed: .5s;
+    transition: width @animation-speed, height @animation-speed, top @animation-speed, left @animation-speed;
+
+    .widget-inner {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
-    .dashboard-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        overflow-y: auto;
+    .widgetTitle {
+      position: absolute;
+      z-index: 1;
+      font-size: 18px;
+      padding: 10px;
+      color: gray;
     }
 
-    &.editing .dashboard-container {
-        bottom: @addPanelHeight;
+    .widgetBody {
+      position: absolute;
+      top: 35px;
+      left: 0;
+      bottom: 0;
+      right: 0;
     }
 
-    .dashboard-content {
-        margin: 18px auto;
-        position: relative;
-
-        &.columns-1 {
-            .widget {
-                width: 100%;
-            }
-        }
+    .config-comp {
+      z-index: 10;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
     }
 
-    .title {
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        background-color: white;
-        padding: 8px 14px;
-        vertical-align: bottom;
-        font-size: 19pt;
-        text-transform: uppercase;
-        color: gray;
+    .background-watermark {
+      bottom: 0;
+      color: rgba(0, 0, 0, 0.06);
+      font-size: 188px;
+      position: absolute;
+      right: 0;
     }
 
-    .widget {
-        background: white;
-        box-shadow: 1px 1px 5px #b7b7b7;
-        display: inline-block;
-        position: absolute;
-        box-sizing: border-box;
-        margin-bottom: 30px;
-        padding: 8px;
-        @animation-speed: .5s;
-        transition: width @animation-speed, height @animation-speed, top @animation-speed, left @animation-speed;
+    section.action-bar {
+      margin: 7px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
 
-        .widget-inner {
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .edit-widget-button {
-            position: absolute;
-            right: 30px;
-            top: 10px;
-            color: #a7a7a7;
-            cursor: pointer;
-
-            &.close-button {
-                color: #2980b9;
-                top: 6px;
-                right: 13px;
-                z-index: 11;
-            }
-        }
-
-        .hide-widget-button {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            color: #a7a7a7;
-            cursor: pointer;
-        }
-
-        .widgetTitle {
-            position: absolute;
-            z-index: 1;
-            font-size: 18px;
-            padding: 10px;
-            color: gray;
-        }
-
-        .widgetBody {
-            position: absolute;
-            top: 35px;
-            left: 0;
-            bottom: 0;
-            right: 0;
-        }
-
-        .config-comp {
-            z-index: 10;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-        }
-
-        .background-watermark {
-            font-size: 268px;
-            position: absolute;
-            bottom: -34px;
-            right: -43px;
-            color: rgba(0, 0, 0, 0.06);
-        }
-
-        .dragbar {
-          color: #a7a7a7;
-          margin: 7px;
-          position: absolute;
-          right: 0;
-          top: 0;
-          z-index: 2;
-        }
-
-        &.draggable {
-            cursor: move;
-            * {
-                cursor: move;
-                pointer-events: none;
-            }
-            :nth-child(2) {
-                filter: blur(1px) grayscale(60%);
-                opacity: 0.8;
-            }
-            &:hover {
-                outline: 3px solid #2980b9;
-                //border: 3px solid #2980b9;
-            }
-        }
-
-        .drop-prompt {
-            content: ' ';
-            position: absolute;
-            top: 0;
-            left: -12px;
-            border-left: 4px solid yellow;
-        }
-    }
-
-    .add-widget-panel {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: @addPanelHeight;
-        bottom: 0;
-        background: #c3c3c3;
-        padding: 11px;
-        white-space: nowrap;
-        overflow-x: auto;
-        z-index: 10;
-        opacity: .98;
-    }
-
-    .widget-panel-enter {
-        bottom: calc(0 - @addPanelHeight);
-
-        &.widget-panel-enter-active {
-            bottom: 0;
-            transition: bottom .25s ease-in;
-        }
-    }
-    .widget-panel-leave {
-        bottom: 0;
-
-        &.widget-panel-leave-active {
-            bottom: calc(0 - @addPanelHeight);
-            transition: bottom .25s ease-in;
-        }
-    }
-
-    .widget-preview {
-        background: #ececec;
-        display: inline-block;
-        height: 148px;
-        width: 220px;
-        border: 1px solid #adadad;
-        margin: 5px 10px;
-        padding: 5px;
-        opacity: 0.5;
+      a {
         cursor: pointer;
+        display: inline-block;
+        margin-left: 7px;
+        pointer-events: all;
         position: relative;
-        overflow: hidden;
-        -webkit-filter: grayscale(100%);
-        filter: grayscale(100%);
+        color: #2980b9;
 
-        &:hover {
-          background: white;
-          opacity: 1.0;
-          -webkit-filter: none;
-          filter: none;
-
-          .add-icon {
-            display: block;
-          }
+        &:hover,
+        &:focus {
+          color: #0DBEBB;
         }
-
-        .add-icon {
-            position: absolute;
-            font-size: 31pt;
-            text-align: center;
-            right: 8px;
-            bottom: 8px;
-            color: #27ae60;
-        }
-
-        .default-preview {
-            text-align: center;
-            padding-top: 60px;
-            color: gray;
-        }
-
-        .widgetTitle {
-            position: absolute;
-            z-index: 1;
-            font-size: 15px;
-            padding: 6px;
-            color: gray;
-        }
-
-        .widgetBody {
-            position: absolute;
-            top: 35px;
-            left: 0;
-            bottom: 0;
-            right: 0;
-        }
-
-        .no-click {
-            pointer-events: none;
-        }
+      }
     }
+
+    &.draggable {
+      cursor: move;
+
+      * {
+        cursor: move;
+        pointer-events: none;
+      }
+
+      config-comp,
+      input,
+      textarea,
+      form,
+      select,
+      a,
+      button,
+      .button {
+        cursor: default;
+        pointer-events: all;
+      }
+      // :nth-child(2) {
+      //   filter: blur(1px) grayscale(60%);
+      //   opacity: 0.8;
+      // }
+      &:hover {
+        outline: 5px solid #2980b9;
+        //border: 3px solid #2980b9;
+      }
+    }
+
+    .drop-prompt {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: -12px;
+      // border-left: 10px solid #0DBEBB;
+      background: #A9F6F5;
+      width: 10px;
+    }
+  }
+
+  .add-widget-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: @addPanelHeight;
+    bottom: 0;
+    background: #c3c3c3;
+    padding: 11px;
+    white-space: nowrap;
+    overflow-x: auto;
+    z-index: 10;
+    opacity: .98;
+  }
+
+  .widget-panel-enter {
+    bottom: calc(0 - @addPanelHeight);
+
+    &.widget-panel-enter-active {
+      bottom: 0;
+      transition: bottom .25s ease-in;
+    }
+  }
+  .widget-panel-leave {
+    bottom: 0;
+
+    &.widget-panel-leave-active {
+      bottom: calc(0 - @addPanelHeight);
+      transition: bottom .25s ease-in;
+    }
+  }
+
+  .widget-preview {
+    background: #ececec;
+    display: inline-block;
+    height: 148px;
+    width: 220px;
+    border: 1px solid #adadad;
+    margin: 5px 10px;
+    padding: 5px;
+    opacity: 0.5;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+
+    &:hover {
+      background: white;
+      opacity: 1.0;
+      -webkit-filter: none;
+      filter: none;
+
+      .add-icon {
+        display: block;
+      }
+    }
+
+    .add-icon {
+      bottom: 8px;
+      color: #27ae60;
+      font-size: 31pt;
+      position: absolute;
+      right: 8px;
+      text-align: center;
+      display: none;
+    }
+
+    .default-preview {
+      text-align: center;
+      padding-top: 60px;
+      color: gray;
+    }
+
+    .widgetTitle {
+      position: absolute;
+      z-index: 1;
+      font-size: 15px;
+      padding: 6px;
+      color: gray;
+    }
+
+    .widgetBody {
+      position: absolute;
+      top: 35px;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    .no-click {
+      pointer-events: none;
+    }
+  }
 }
