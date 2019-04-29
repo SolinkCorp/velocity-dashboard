@@ -4,7 +4,6 @@ chartColors = require('./ChartStyles').colors
 module.exports =
     Content: ->
         <div>
-            <div className='widgetTitle'>Activity Feed</div>
             <div className='widgetBody activity-feed'>
                 <ul>
 
@@ -67,4 +66,3 @@ module.exports =
                 </ul>
             </div>
         </div>
-

@@ -24,9 +24,7 @@ pieOptions = {
 module.exports =
     Content: ->
         <div>
-            <div className='widgetTitle'>Numbers by Date</div>
             <div className='widgetBody'>
                 <Chart className='chart' chartType="ColumnChart" data={data} options={pieOptions} graph_id="BarChart" width={"100%"} height={"100%"} />
             </div>
         </div>
-

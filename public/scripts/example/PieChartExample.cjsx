@@ -23,16 +23,13 @@ pieOptions = {
 module.exports =
     Content: ->
         <div>
-            <div className='widgetTitle'>My Average Day</div>
             <div className='widgetBody'>
                 <Chart className='chart' chartType="PieChart" data={pieData} options={pieOptions} graph_id="PieChart" width={"100%"} height={"calc(100% - 5px)"} />
             </div>
         </div>
     Preview: ->
         <div>
-            <div className='widgetTitle'>My Average Day</div>
             <div className='widgetBody'>
                 <Chart className='chart' chartType="PieChart" data={pieData} options={_(enableInteractivity:false).extend(pieOptions)} graph_id="PieChartPreview" width={"100%"} height={"calc(100% - 5px)"} />
             </div>
         </div>
-

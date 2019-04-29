@@ -1,92 +1,157 @@
 React = require 'react'
-{drop, target, collectDropTarget, ItemTypes, widgetSource, collectDragable} = require './dnd'
-{DropTarget, DragSource} = require 'react-dnd'
+{
+  drop,
+  target,
+  collectDropTarget,
+  ItemTypes,
+  widgetSource,
+  collectDragable,
+  connectDragLayer
+} = require './dnd'
+{
+  DropTarget,
+  DragSource,
+  DragLayer
+} = require 'react-dnd'
+
 
 Widget = React.createClass
+  displayName: 'Widget'
 
-    displayName: 'Widget'
+  propTypes:
+    contentComp: React.PropTypes.func
 
-    propTypes:
-        contentComp: React.PropTypes.func
-        configComp: React.PropTypes.func
-        previewComp: React.PropTypes.func
+  getInitialState: ->
+    showInfo: false
+    showMenu: false
+    isReady: false
 
-    getInitialState: ->
-        editMode: false
+  toggleInfo: ->
+    { showInfo } = @state
 
-    toggleEditMode: ->
-        @setState editMode: !@state.editMode
+    if !showInfo
+      document.addEventListener('click', @closeInfo)
 
-    componentWillReceiveProps: (nextProps) ->
-        if !nextProps.dashEditable and @state.editMode
-            @setState editMode: false
+    @setState
+      showInfo: !showInfo
+      showMenu: false
 
-    hide: ->
+  closeInfo: ->
+    document.removeEventListener('click', @closeInfo)
+    @setState showInfo: false
 
-    render: ->
-        {instanceId, height, width, col, row, dashEditable, draggable, config, onConfigChange, onHide, contentComp, configComp, sizeConfig, columnCount} = @props
-        {connectDragSource, isDragging, connectDropTarget, isOver} = @props
-        width = config?.width or width or 1
-        height = config?.height or height or 1
-        {editMode} = @state
-        {widgetHeight, widgetWidth, widgetMargin, titleHeight} = sizeConfig
+  toggleMenu: ->
+    { showMenu } = @state
 
-        styles =
-            height: height * (widgetHeight + widgetMargin) - widgetMargin
-            width: if columnCount is 1 then '100%' else width * (widgetWidth + widgetMargin) - widgetMargin
-            left: Math.max(0, col * (widgetWidth + widgetMargin))
-            top: row * (widgetHeight + widgetMargin)
+    if !showMenu
+      document.addEventListener('click', @closeMenu)
 
-        classes = ['widget']
-        classes.push 'draggable' if draggable
-        classes.push 'drag-over' if isOver
+    @setState
+      showMenu: !showMenu
+      showInfo: false
 
-        rendered =
-            <div className={classes.join(' ')} style={styles}>
+  closeMenu: ->
+    document.removeEventListener('click', @closeMenu)
+    @setState showMenu: false
+
+  render: ->
+    {
+      instanceId,
+      height,
+      width,
+      col,
+      row,
+      config,
+      onHide,
+      contentComp,
+      sizeConfig,
+      columnCount,
+      connectDragSource,
+      connectDropTarget,
+      connectDragPreview,
+      isDragging,
+      isOver,
+      widgetTitle,
+      widgetDescription,
+      widgetMenu,
+    } = @props
+    { showMenu, showInfo, isReady } = @state
+
+    { widgetHeight, widgetWidth, widgetMargin, titleHeight } = sizeConfig
+    width = config?.width or width or 1
+    height = config?.height or height or 1
+
+    styles =
+      height: height * (widgetHeight + widgetMargin) - widgetMargin
+      width: if columnCount is 1 then '100%' else width * (widgetWidth + widgetMargin) - widgetMargin
+      left: Math.max(0, col * (widgetWidth + widgetMargin))
+      top: row * (widgetHeight + widgetMargin)
+
+    classes = ['widget']
+    classes.push 'is-dragging' if isDragging
+    classes.push 'drag-over' if isOver
+
+    infoClass = ['info']
+    infoClass.push 'active' if showInfo
+    menuClass = ['menu']
+    menuClass.push 'active' if showMenu
+
+    rendered =
+      <div className={classes.join(' ')} style={styles}>
+        {
+          if isOver
+            <div className='drop-prompt' style={height: widgetHeight}/>
+        }
+        <div className='widget-inner'>
+          {
+            connectDragSource(
+              <header className='widget-header draggable'>
                 {
-                  if isOver
-                      <div className='drop-prompt' style={height: widgetHeight}/>
+                  if widgetTitle
+                    <h3 className='widget-title'>{ widgetTitle }</h3>
                 }
-                <div className='widget-inner'>
-                  <section className='action-bar'>
-                    {
-                      if dashEditable
-                        if editMode
-                            <a className='action-button edit-widget-button close-button' onClick={@toggleEditMode}>
-                              <i className='zmdi zmdi-check'></i>
-                            </a>
-                        else
-                          <span>
-                            {
-                              if configComp
-                                <a className='action-button edit-widget-button' onClick={@toggleEditMode}>
-                                  <i className='zmdi zmdi-settings'></i>
-                                </a>
-                            }
-                            <a className='action-button hide-widget-button' onClick={onHide}>
-                              <i className='zmdi zmdi-close'></i>
-                            </a>
-                          </span>
-                    }
-                  </section>
+                <section className='action-bar'>
                   {
-                    comp = if dashEditable and editMode
-                        if configComp
-                            <div>
-                                <div className='config-comp'>{React.createElement(configComp, {instanceId, config, onConfigChange})}</div>
-                                <i className='zmdi zmdi-settings background-watermark'></i>
-                            </div>
-                        else
-                            <div/>
-                    else
-                        if contentComp then React.createElement(contentComp, {instanceId, config}) else <div/>
+                    if widgetDescription
+                      <span className='action'>
+                        <a className='action-button hide-widget-button' onClick={@toggleInfo}>
+                          <i className='zmdi zmdi-info_outline'></i>
+                        </a>
+                        <p className={infoClass.join(' ')}>
+                          { widgetDescription }
+                        </p>
+                      </span>
                   }
-                </div>
-            </div>
+                  {
+                    if widgetMenu
+                      <span className='action'>
+                        <a className='action-button hide-widget-button' onClick={@toggleMenu}>
+                          <i className='zmdi zmdi-uniF19B'></i>
+                        </a>
+                        <ul className={menuClass.join(' ')}>
+                          {
+                            widgetMenu.map (item, index) ->
+                              <li key={index}>
+                                <a onClick={()-> item.handler(instanceId)}>{ item.title }</a>
+                              </li>
+                          }
+                        </ul>
+                      </span>
+                  }
+                </section>
+              </header>
+            )
+          }
+          {
+            if contentComp
+              React.createElement(contentComp, {instanceId, config})
+          }
+        </div>
+      </div>
 
-        if draggable
-            connectDragSource(connectDropTarget(rendered))
-        else
-            rendered
+    connectDropTarget(connectDragPreview(rendered))
 
-module.exports = DragSource(ItemTypes.WIDGET, widgetSource, collectDragable)(DropTarget(ItemTypes.WIDGET, target, collectDropTarget)(Widget))
+dragLayer = DragLayer((connectDragLayer))(Widget)
+dropTarget = DropTarget(ItemTypes.WIDGET, target, collectDropTarget)(dragLayer)
+dragSource = DragSource(ItemTypes.WIDGET, widgetSource, collectDragable)
+module.exports = dragSource(dropTarget)

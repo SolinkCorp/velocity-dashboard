@@ -17,7 +17,6 @@ module.exports =
     Content: (props) ->
         weather = hardCodedWeather[props.config.location or 'stl']
         <div className='weather-example'>
-            <div className='city'>{weather.name}</div>
             <i className={"wi #{weather.weather}"}></i>
         </div>
 
