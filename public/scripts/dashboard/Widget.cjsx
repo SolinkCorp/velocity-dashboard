@@ -56,7 +56,7 @@ Widget = React.createClass
 
   render: ->
     {
-      instanceId,
+      index,
       height,
       width,
       col,
@@ -130,9 +130,12 @@ Widget = React.createClass
                         </a>
                         <ul className={menuClass.join(' ')}>
                           {
-                            widgetMenu.map (item, index) ->
-                              <li key={index}>
-                                <a onClick={()-> item.handler(instanceId)}>{ item.title }</a>
+                            widgetMenu.map (item, menuIndex) ->
+                              <li key={menuIndex} className={item.type}>
+                                {
+                                  if item.title && item.type is 'action'
+                                    <a onClick={()-> item.handler(index)}>{ item.title }</a>
+                                }
                               </li>
                           }
                         </ul>
@@ -144,7 +147,7 @@ Widget = React.createClass
           }
           {
             if contentComp
-              React.createElement(contentComp, {instanceId, config})
+              React.createElement(contentComp, {index, config})
           }
         </div>
       </div>

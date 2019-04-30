@@ -6,156 +6,238 @@ pieChart = require './PieChartExample'
 barChart = require './BarChartExample'
 activityWidget = require './ActivityExample'
 booleanWidget = require './BooleanWidgetExample'
+Modal = require 'react-modal'
+
+customStyles =
+  content:
+    top                   : '50%'
+    left                  : '50%'
+    right                 : 'auto'
+    bottom                : 'auto'
+    marginRight           : '-50%'
+    transform             : 'translate(-50%, -50%)'
+
+# Make sure to bind modal to your appElement
+Modal.setAppElement('#app')
 
 module.exports = React.createClass
+  displayName: 'ExampleDashboard'
 
-    menu: [
-        {
-          title: 'Settings'
-          type: 'action'
-          handler: (instanceId) ->
-            console.warn('Settings widget ', instanceId)
-        },
-        {
-          title: 'Remove'
-          type: 'action'
-          handler: (instanceId) ->
-            console.warn('Remove widget ', instanceId)
-        },
-        {
-          title: 'Export'
-          type: 'action'
-          handler: (instanceId) ->
-            console.warn('Export data from widget ', instanceId)
-        },
+  getInitialState: ->
+    widgets = [
+      {
+        widgetId: 'weather'
+        config: { location: 'orl', title: 'Orlando' }
+      },
+      {
+        widgetId: 'accident'
+        description: 'Lorem ipsum dolor accident'
+        config: { days: Math.floor(Math.random() * 365) + 1 }
+      },
+      {
+        widgetId: 'weather'
+        config: { location: 'stl', title: 'St. Louis' }
+      },
+      {
+        widgetId: 'activityLog'
+        description: 'Lorem ipsum dolor activityLog'
+        config: { title: 'Activity Feed' }
+      },
+      {
+        widgetId: 'pie'
+        description: 'Lorem ipsum dolor pie'
+        config: { title: 'My Average Day' }
+      },
+      {
+        widgetId: 'barChart'
+        description: 'Lorem ipsum dolor barChart'
+        config: { title: 'Numbers by Date' }
+      },
+      {
+        widgetId: 'thumbsUp'
+        description: 'Lorem ipsum dolor thumbsUp'
+        config: { title: 'System Status' }
+      },
+      {
+        widgetId: 'nothin'
+        description: 'Lorem ipsum dolor nothin'
+        config: { title: 'Interesting Widget' }
+      },
     ]
 
-    displayName: 'ExampleDashboard'
+    accidentWidget = (props) ->
+      <div className='days-since-last'>
+        <div className='days'>{props.config.days}</div>
+        <div className='text'>days since last accident</div>
+      </div>
 
-    getInitialState: ->
-      widgets: [
-        {
-          widgetId: 'weather'
-          instanceId: '1'
-          config: {location: 'orl', title: 'Orlando'}
-        },
-        {
-          widgetId: 'accident'
-          description: 'Lorem ipsum dolor accident'
-          instanceId: '2'
-        },
-        {
-          widgetId: 'weather'
-          instanceId: '3'
-          config: {location: 'stl', title: 'St. Louis'}
-        },
-        {
-          widgetId: 'activityLog'
-          description: 'Lorem ipsum dolor activityLog'
-          instanceId: '9'
-          config: { title: 'Activity Feed' }
-        },
-        {
-          widgetId: 'pie'
-          description: 'Lorem ipsum dolor pie'
-          instanceId: '4'
-          config: { title: 'My Average Day' }
-        },
-        {
-          widgetId: 'barChart'
-          description: 'Lorem ipsum dolor barChart'
-          instanceId: '5'
-          config: { title: 'Numbers by Date' }
-        },
-        {
-          widgetId: 'thumbsUp'
-          description: 'Lorem ipsum dolor thumbsUp'
-          instanceId: '6'
-          config: { title: 'System Status' }
-        },
-        {
-          widgetId: 'nothin'
-          description: 'Lorem ipsum dolor nothin'
-          instanceId: '7'
-          config: { title: 'Interesting Widget' }
-        },
-      ]
-      editMode: false
+    widgetLib =
+      accident:
+        contentComp: accidentWidget
+        description: 'Widget of type "accident"'
+        config: { days: Math.floor(Math.random() * 365) + 1 }
+      weather:
+        contentComp: weatherWidget.Content
+        description: 'Widget of type "weather"'
+        config: { location: 'orl', title: 'Orlando' }
+      pie:
+        contentComp: pieChart.Content
+        description: 'Widget of type "pie"'
+        config: { title: 'My Average Day' }
+      barChart:
+        contentComp: barChart.Content
+        width: 2
+        description: 'Widget of type "barChart"'
+        config: { title: 'Numbers by Date' }
+      thumbsUp:
+        contentComp: booleanWidget.Content
+        description: 'Widget of type "thumbsUp"'
+        config: { title: 'System Status' }
+      nothin:
+        contentComp: -> <div></div>
+        width: 2
+        description: 'Widget of type "nothin"'
+        config: { title: 'Interesting Widget' }
+      anotherEmpty:
+        contentComp: -> <div></div>
+        description: 'Widget of type "anotherEmpty"'
+        config: { title: 'Empty Widget' }
+      activityLog:
+        contentComp: activityWidget.Content
+        height: 2
+        description: 'Widget of type "activityLog"'
+        config: { title: 'Activity Feed' }
 
-    widgetsChange: (widgets) ->
-      @setState widgets: widgets
+    isModalOpen: false
+    modalOptions: Object.keys(widgetLib).map (id) =>
+      widget = widgetLib[id]
+      <option key={id} value={id}>
+        { widget.config.title || id }
+      </option>
+    widgets: widgets
+    widgetLib: widgetLib
+    widgetComponents: Object.keys(widgetLib).map (id) =>
+      widget = widgetLib[id]
+      <Widget
+        id={id}
+        key={id}
+        contentComp={widget.contentComp}
+        width={widget.width}
+        height={widget.height}
+      />
 
-    toggleEditMode: () ->
-      @setState editMode: !@state.editMode
+  actionSettings: (index) ->
+    console.warn('Settings widget ', index)
 
-    render: ->
-      { editMode } = @state;
+  actionRemove: (index) ->
+    widgetList = @state.widgets.slice(0)
+    widgetList.splice(index, 1)
+    @setState widgets: widgetList
 
-      <main className='example-dash-wrapper'>
-        <header>
-          <button tabIndex={1} onClick={@toggleEditMode}>
-            { if editMode then 'Done' else 'Add Widgets' }
-          </button>
-        </header>
+  actionExport: (index) ->
+    console.warn('Export data from widget ', index)
 
-        <Dashboard
-          className='example-dash'
-          widgets={@state.widgets}
-          menu={@menu}
-          onWidgetsChange={@widgetsChange}
-          widgetHeight={280}
-          widgetWidth={280}
-          widgetMargin={16}
-          titleHeight={60}
-          maxColumns={8}
-          editMode={editMode}
-        >
-          <Widget
-            id='accident'
-            contentComp={-> <div className='days-since-last'><div className='days'>13</div><div className='text'>days since last accident</div></div>}
-            previewComp={-> <div className='days-since-last preview'><div className='days'>100</div><div className='text'>days since last accident</div></div>}
-          />
-          <Widget
-            id='weather'
-            contentComp={weatherWidget.Content}
-            configComp={weatherWidget.Config}
-            previewComp={weatherWidget.Preview}
-            defaultConfig={{ location: 'orl', title: 'Orlando' }}
-          />
-          <Widget
-            id='pie'
-            contentComp={pieChart.Content}
-            previewComp={pieChart.Preview}
-            defaultConfig={{ title: 'My Average Day' }}
-          />
-          <Widget
-            id='barChart'
-            width="2"
-            contentComp={barChart.Content}
-          />
-          <Widget
-            id='thumbsUp'
-            contentComp={booleanWidget.Content}
-            previewComp={booleanWidget.Preview}
-          />
-          <Widget
-            id='nothin'
-            width="2"
-          />
-          <Widget
-            id='anotherEmpty'
-          />
-          <Widget
-            id='activityLog'
-            height="2"
-            contentComp={activityWidget.Content}
-          />
-          <Widget
-            id='empty'
-          />
-          <Widget
-            id='wideEmpty'
-            width="2"
-          />
-        </Dashboard>
-      </main>
+  getMenu: ->
+    [
+      {
+        title: 'Settings'
+        type: 'action'
+        handler: @actionSettings
+      },
+      {
+        type: 'divider'
+      },
+      {
+        title: 'Remove'
+        type: 'action'
+        handler: @actionRemove
+      },
+      {
+        title: 'Export'
+        type: 'action'
+        handler: @actionExport
+      },
+    ]
+
+  toggleModal: ->
+    @setState isModalOpen: !@state.isModalOpen
+
+  afterOpenModal: ->
+    selector = document.getElementById('widgets-selector');
+    selector.focus()
+
+  addWidget: ->
+    { widgetToAdd, widgetLib, widgets } = @state
+
+    if !widgetToAdd
+      return
+
+    lib = widgetLib[widgetToAdd] || {}
+    widgets = [].concat widgets
+    widgets.push
+      widgetId: widgetToAdd
+      description: lib.description
+      config: lib.config || {}
+
+    @setState
+      widgets: widgets
+      widgetToAdd: null
+      isModalOpen: false
+
+  widgetsChange: (widgets) ->
+    @setState widgets: widgets
+
+  setWidgetToAdd: (event) ->
+    @setState widgetToAdd: event.target.value
+
+  render: ->
+    {
+      isModalOpen,
+      widgetLib,
+      widgets,
+      modalOptions,
+      widgetComponents
+    } = @state;
+
+    menu = @getMenu();
+
+    <main className='example-dash-wrapper'>
+      <header>
+        <button tabIndex={1} onClick={@toggleModal}>
+          { if isModalOpen then 'Done' else 'Add Widgets' }
+        </button>
+      </header>
+
+      <Modal
+        isOpen={@state.isModalOpen}
+        onAfterOpen={@afterOpenModal}
+        onRequestClose={@toggleModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 style={{ marginTop: 0, fontSize: 15 }}>Select Widget to Add</h2>
+        <section>
+          <select id="widgets-selector" onChange={@setWidgetToAdd}>
+            <option value={null}>Select a widget</option>
+            {modalOptions}
+          </select>
+        </section>
+        <section style={{ textAlign: 'right', marginTop: 20 }}>
+          <button onClick={@addWidget}>Add</button>
+          <button onClick={@toggleModal}>Cancel</button>
+        </section>
+      </Modal>
+
+      <Dashboard
+        widgets={widgets}
+        menu={menu}
+        onWidgetsChange={@widgetsChange}
+        widgetHeight={280}
+        widgetWidth={280}
+        widgetMargin={16}
+        titleHeight={60}
+        maxColumns={8}
+      >
+        {widgetComponents}
+      </Dashboard>
+    </main>

@@ -3,14 +3,14 @@ module.exports =
     WIDGET: 'widget'
   widgetSource:
     beginDrag: (props) ->
-      {id: props.instanceId}
+      {index: props.index}
   collectDragable: (connect, monitor) ->
     connectDragSource: connect.dragSource()
     connectDragPreview: connect.dragPreview()
     isDragging: monitor.isDragging()
   target:
     drop: (props, monitor) ->
-      props.onDrop(monitor.getItem().id, props.instanceId)
+      props.onDrop(monitor.getItem().index, props.index)
   collectDropTarget: (connect, monitor) ->
     connectDropTarget: connect.dropTarget()
     isOver: monitor.isOver()

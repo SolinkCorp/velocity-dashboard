@@ -28,6 +28,7 @@
     "react-dnd": "~2.2.3",
     "react-dnd-html5-backend": "~2.2.4",
     "react-dom": "~15.6.2",
+    "react-modal": "~3.8.1",
     "underscore": "~1.8.3"
   },
   "peerDependencies": {

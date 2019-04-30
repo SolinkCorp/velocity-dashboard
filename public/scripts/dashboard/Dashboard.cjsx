@@ -4,7 +4,6 @@ Layout = require './Layout'
 componentWidthMixin = require 'react-component-width-mixin'
 _ = require 'underscore'
 ReactCSSTransitionGroup = require 'react-addons-css-transition-group'
-AddWidgetPanel = require './AddWidgetPanel'
 {DragDropContext} = require 'react-dnd'
 dndBackend = require 'react-dnd-html5-backend'
 
@@ -24,22 +23,19 @@ Dashboard = React.createClass
     cc1 = @layout.columnCount()
     @layout.reset(@state.componentWidth)
     cc2 = @layout.columnCount()
-    nextProps != @props or nextState.editMode != @state.editMode or cc1 != cc2
+    nextProps != @props or cc1 != cc2
 
-  getInitialState: ->
-    editMode: false
-
-  childComponentsForConfig: (components, widgets, editMode, sizeConfig, columnCount) ->
+  childComponentsForConfig: (components, widgets, sizeConfig, columnCount) ->
     { menu } = @props
     componentsById = getComponentsById(components)
-    instances = widgets.map (widget) =>
+    instances = widgets.map (widget, index) =>
       if componentsById[widget.widgetId]
         withPositions = @layout.setWidgetPosition(componentsById[widget.widgetId], widget.config)
         React.cloneElement withPositions,
-          key: widget.instanceId
-          onHide: => @hideWidget(widget.instanceId)
+          key: index
+          onHide: => @hideWidget(index)
           config: widget.config
-          instanceId: widget.instanceId
+          index: index
           sizeConfig: sizeConfig
           columnCount: columnCount
           onDrop: @moveWidget
@@ -48,44 +44,26 @@ Dashboard = React.createClass
           widgetMenu: menu
     _(instances).compact()
 
-  hideWidget: (instanceId) ->
-    allConfigs = [].concat @props.widgets
+  hideWidget: (index) ->
+    widgets = [].concat @props.widgets
 
-    index = _(allConfigs).findIndex (widgets) ->
-      widgets.instanceId is instanceId
+    widgets.splice(index, 1)
 
-    allConfigs.splice(index, 1)
+    @props.onWidgetsChange widgets
 
-    @props.onWidgetsChange allConfigs
+  widgetChange: (index, newConfig) ->
+    widgets = [].concat @props.widgets
 
-  widgetChange: (instanceId, newConfig) ->
-    allConfigs = [].concat @props.widgets
-
-    index = _(allConfigs).findIndex (widgets) ->
-      widgets.instanceId is instanceId
-
-    allConfigs[index] =
-      widgetId: allConfigs[index].widgetId
-      instanceId: instanceId
+    widgets[index] =
+      widgetId: widgets[index].widgetId
       config: newConfig
 
     @props.onWidgetsChange allConfigs
 
-  addWidget: (id, config) ->
-    console.warn config
+  moveWidget: (sourceIndex, targetIndex) ->
     widgets = [].concat @props.widgets
-    widgets.push
-      widgetId: id
-      instanceId: Math.floor(Math.random() * 100000)
-      config: if config then config else {}
-    @props.onWidgetsChange widgets
-
-  moveWidget: (draggingWidgetId, targetWidgetId) ->
-    widgets = [].concat @props.widgets
-    targetIndex = _(widgets).findIndex (widget) -> widget.instanceId is targetWidgetId
-    sourceIndex = _(widgets).findIndex (widget) -> widget.instanceId is draggingWidgetId
     if sourceIndex < targetIndex
-        targetIndex--
+      targetIndex--
     widgets.splice(targetIndex, 0, widgets.splice(sourceIndex, 1)[0]);
     @props.onWidgetsChange widgets
 
@@ -100,23 +78,21 @@ Dashboard = React.createClass
       widgetMargin = defaults.margin,
       titleHeight = 50,
       maxColumns = 5,
-      editMode,
       componentWidthForTesting,
     } = @props
-    # {editMode, moveMode, componentWidth} = @state
+    # {moveMode, componentWidth} = @state
     { componentWidth } = @state
-    children = [].concat(children)
     sizeConfig = {widgetHeight, widgetWidth, widgetMargin, titleHeight, maxColumns}
 
     @layout = layout = new Layout(sizeConfig)
     layout.reset(componentWidthForTesting or componentWidth)
-    childrenForCurrentConfig = @childComponentsForConfig(children, widgets, editMode, sizeConfig, layout.columnCount())
+    childrenForCurrentConfig = @childComponentsForConfig(children, widgets, sizeConfig, layout.columnCount())
 
     contentWidth = layout.columnCount() * (widgetWidth + widgetMargin) - widgetMargin
     if layout.columnCount() is 1
         contentWidth = '90%'
 
-    <div className={"dashboard #{className} #{if editMode then 'editing' else ''}"}>
+    <div className={"dashboard #{className}"}>
       <section className={"dashboard-content columns-#{layout.columnCount()}"} style={width: contentWidth}>
         {childrenForCurrentConfig}
       </section>
@@ -127,18 +103,6 @@ Dashboard = React.createClass
         transitionEnter={true}
         transitionLeave={true}
       >
-        {
-          if editMode
-            addPanelChildren = children.map (child) =>
-              preview = if child.props.previewComp then React.createElement(child.props.previewComp) else <div className='default-preview' key={child.props.id}>No Preview</div>
-              <div className='widget-preview' key={child.props.id} onClick={=>@addWidget(child.props.id, child.props.defaultConfig)}>
-                <div className='no-click'>
-                  {preview}
-                  <i className="add-icon zmdi zmdi-add" />
-                </div>
-              </div>
-            <AddWidgetPanel>{addPanelChildren}</AddWidgetPanel>
-        }
       </ReactCSSTransitionGroup>
     </div>
 
