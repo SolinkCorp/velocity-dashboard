@@ -77,7 +77,7 @@ Widget = React.createClass
     } = @props
     { showMenu, showInfo, isReady } = @state
 
-    { widgetHeight, widgetWidth, widgetMargin, titleHeight } = sizeConfig
+    { widgetHeight, widgetWidth, widgetMargin } = sizeConfig
     width = config?.width or width or 1
     height = config?.height or height or 1
 
@@ -100,7 +100,7 @@ Widget = React.createClass
       <div className={classes.join(' ')} style={styles}>
         {
           if isOver
-            <div className='drop-prompt' style={height: widgetHeight}/>
+            <div className='drop-prompt' style={height: styles.height}/>
         }
         <div className='widget-inner'>
           {

@@ -76,13 +76,12 @@ Dashboard = React.createClass
       widgetHeight = defaults.widgetHeight,
       widgetWidth = defaults.widgetWidth,
       widgetMargin = defaults.margin,
-      titleHeight = 50,
       maxColumns = 5,
       componentWidthForTesting,
     } = @props
     # {moveMode, componentWidth} = @state
     { componentWidth } = @state
-    sizeConfig = {widgetHeight, widgetWidth, widgetMargin, titleHeight, maxColumns}
+    sizeConfig = {widgetHeight, widgetWidth, widgetMargin, maxColumns}
 
     @layout = layout = new Layout(sizeConfig)
     layout.reset(componentWidthForTesting or componentWidth)

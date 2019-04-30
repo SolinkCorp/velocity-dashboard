@@ -152,14 +152,13 @@ module.exports =
 	    return this.props.onWidgetsChange(widgets);
 	  },
 	  render: function() {
-	    var children, childrenForCurrentConfig, className, componentWidth, componentWidthForTesting, contentWidth, layout, maxColumns, ref, ref1, ref2, ref3, ref4, ref5, sizeConfig, title, titleHeight, widgetHeight, widgetMargin, widgetWidth, widgets;
-	    ref = this.props, children = ref.children, title = ref.title, className = ref.className, widgets = ref.widgets, widgetHeight = (ref1 = ref.widgetHeight) != null ? ref1 : defaults.widgetHeight, widgetWidth = (ref2 = ref.widgetWidth) != null ? ref2 : defaults.widgetWidth, widgetMargin = (ref3 = ref.widgetMargin) != null ? ref3 : defaults.margin, titleHeight = (ref4 = ref.titleHeight) != null ? ref4 : 50, maxColumns = (ref5 = ref.maxColumns) != null ? ref5 : 5, componentWidthForTesting = ref.componentWidthForTesting;
+	    var children, childrenForCurrentConfig, className, componentWidth, componentWidthForTesting, contentWidth, layout, maxColumns, ref, ref1, ref2, ref3, ref4, sizeConfig, title, widgetHeight, widgetMargin, widgetWidth, widgets;
+	    ref = this.props, children = ref.children, title = ref.title, className = ref.className, widgets = ref.widgets, widgetHeight = (ref1 = ref.widgetHeight) != null ? ref1 : defaults.widgetHeight, widgetWidth = (ref2 = ref.widgetWidth) != null ? ref2 : defaults.widgetWidth, widgetMargin = (ref3 = ref.widgetMargin) != null ? ref3 : defaults.margin, maxColumns = (ref4 = ref.maxColumns) != null ? ref4 : 5, componentWidthForTesting = ref.componentWidthForTesting;
 	    componentWidth = this.state.componentWidth;
 	    sizeConfig = {
 	      widgetHeight: widgetHeight,
 	      widgetWidth: widgetWidth,
 	      widgetMargin: widgetMargin,
-	      titleHeight: titleHeight,
 	      maxColumns: maxColumns
 	    };
 	    this.layout = layout = new Layout(sizeConfig);
@@ -10938,10 +10937,10 @@ module.exports =
 	    });
 	  },
 	  render: function() {
-	    var classes, col, columnCount, config, connectDragPreview, connectDragSource, connectDropTarget, contentComp, height, index, infoClass, isDragging, isOver, isReady, menuClass, onHide, ref2, ref3, rendered, row, showInfo, showMenu, sizeConfig, styles, titleHeight, widgetDescription, widgetHeight, widgetMargin, widgetMenu, widgetTitle, widgetWidth, width;
+	    var classes, col, columnCount, config, connectDragPreview, connectDragSource, connectDropTarget, contentComp, height, index, infoClass, isDragging, isOver, isReady, menuClass, onHide, ref2, ref3, rendered, row, showInfo, showMenu, sizeConfig, styles, widgetDescription, widgetHeight, widgetMargin, widgetMenu, widgetTitle, widgetWidth, width;
 	    ref2 = this.props, index = ref2.index, height = ref2.height, width = ref2.width, col = ref2.col, row = ref2.row, config = ref2.config, onHide = ref2.onHide, contentComp = ref2.contentComp, sizeConfig = ref2.sizeConfig, columnCount = ref2.columnCount, connectDragSource = ref2.connectDragSource, connectDropTarget = ref2.connectDropTarget, connectDragPreview = ref2.connectDragPreview, isDragging = ref2.isDragging, isOver = ref2.isOver, widgetTitle = ref2.widgetTitle, widgetDescription = ref2.widgetDescription, widgetMenu = ref2.widgetMenu;
 	    ref3 = this.state, showMenu = ref3.showMenu, showInfo = ref3.showInfo, isReady = ref3.isReady;
-	    widgetHeight = sizeConfig.widgetHeight, widgetWidth = sizeConfig.widgetWidth, widgetMargin = sizeConfig.widgetMargin, titleHeight = sizeConfig.titleHeight;
+	    widgetHeight = sizeConfig.widgetHeight, widgetWidth = sizeConfig.widgetWidth, widgetMargin = sizeConfig.widgetMargin;
 	    width = (config != null ? config.width : void 0) || width || 1;
 	    height = (config != null ? config.height : void 0) || height || 1;
 	    styles = {
@@ -10971,7 +10970,7 @@ module.exports =
 	    }, (isOver ? React.createElement("div", {
 	      "className": 'drop-prompt',
 	      "style": {
-	        height: widgetHeight
+	        height: styles.height
 	      }
 	    }) : void 0), React.createElement("div", {
 	      "className": 'widget-inner'

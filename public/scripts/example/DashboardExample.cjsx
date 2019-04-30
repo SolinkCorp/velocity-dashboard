@@ -236,7 +236,6 @@ module.exports = React.createClass
         widgetHeight={280}
         widgetWidth={280}
         widgetMargin={16}
-        titleHeight={60}
         maxColumns={8}
       >
         {widgetComponents}

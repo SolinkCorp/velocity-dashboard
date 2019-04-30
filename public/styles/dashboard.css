@@ -3,7 +3,7 @@
   position: relative;
 }
 .dashboard .dashboard-content {
-  margin: 18px auto;
+  margin: 0;
   position: relative;
 }
 .dashboard .dashboard-content.columns-1 .widget {
@@ -18,7 +18,7 @@
   position: absolute;
   box-sizing: border-box;
   margin-bottom: 30px;
-  padding: 8px;
+  padding: 16px;
   transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
 }
 .dashboard .widget .widget-inner {
@@ -37,10 +37,11 @@
 }
 .dashboard .widget .widgetBody {
   position: absolute;
-  top: 35px;
+  top: calc(53px);
   left: 0;
   bottom: 0;
   right: 0;
+  overflow: hidden;
 }
 .dashboard .widget .config-comp {
   z-index: 10;
@@ -57,17 +58,23 @@
   position: absolute;
   right: 0;
 }
+.dashboard .widget:hover header.widget-header,
+.dashboard .widget:focus header.widget-header {
+  background: #f3f3f3;
+}
 .dashboard .widget header.widget-header {
   box-sizing: border-box;
-  height: calc(35px);
-  padding: 7px;
+  height: calc(53px);
+  padding: 16px;
   width: 100%;
   z-index: 1000;
 }
 .dashboard .widget header.widget-header .widget-title {
-  color: #888;
+  color: #333;
   display: inline-block;
-  line-height: calc(23px);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: calc(24px);
   margin: 0;
   padding: 0;
 }
@@ -85,7 +92,7 @@
   display: inline-block;
   pointer-events: all;
   position: relative;
-  color: #2980b9;
+  color: #2580bc;
 }
 .dashboard .widget header.widget-header section.action-bar a:hover,
 .dashboard .widget header.widget-header section.action-bar a:focus {
@@ -153,7 +160,7 @@
 .dashboard .widget header.widget-header section.action-bar .menu a:hover,
 .dashboard .widget header.widget-header section.action-bar .info a:focus,
 .dashboard .widget header.widget-header section.action-bar .menu a:focus {
-  background: #2980b9;
+  background: #2580bc;
   color: #fff;
 }
 .dashboard .widget header.widget-header section.action-bar .menu {
@@ -178,7 +185,7 @@
   pointer-events: all;
 }
 .dashboard .widget.is-dragging:hover {
-  outline: 5px solid #2980b9;
+  outline: 5px solid #2580bc;
 }
 .dashboard .widget .drop-prompt {
   content: ' ';
@@ -219,59 +226,4 @@
 .dashboard .widget-panel-leave.widget-panel-leave-active {
   bottom: calc(-200px);
   transition: bottom 0.25s ease-in;
-}
-.dashboard .widget-preview {
-  background: #ececec;
-  display: inline-block;
-  height: 148px;
-  width: 220px;
-  border: 1px solid #adadad;
-  margin: 5px 10px;
-  padding: 5px;
-  opacity: 0.5;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-}
-.dashboard .widget-preview:hover {
-  background: white;
-  opacity: 1.0;
-  -webkit-filter: none;
-  filter: none;
-}
-.dashboard .widget-preview:hover .add-icon {
-  display: block;
-}
-.dashboard .widget-preview .add-icon {
-  bottom: 8px;
-  color: #27ae60;
-  font-size: 31pt;
-  position: absolute;
-  right: 8px;
-  text-align: center;
-  display: none;
-}
-.dashboard .widget-preview .default-preview {
-  text-align: center;
-  padding-top: 60px;
-  color: gray;
-}
-.dashboard .widget-preview .widgetTitle {
-  position: absolute;
-  z-index: 1;
-  font-size: 15px;
-  padding: 6px;
-  color: gray;
-}
-.dashboard .widget-preview .widgetBody {
-  position: absolute;
-  top: 35px;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-.dashboard .widget-preview .no-click {
-  pointer-events: none;
 }
