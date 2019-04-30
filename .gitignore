@@ -38,13 +38,4 @@ benchmarks/graphs
 /public/scripts/main.js.map
 /public/styles/style.css
 
-
-/dist/fonts/*.otf
-/dist/fonts/*.eot
-/dist/fonts/*.svg
-/dist/fonts/*.ttf
-/dist/fonts/*.woff
-/dist/fonts/*.woff2
-
 /dist/example.*
-/dist/main.*

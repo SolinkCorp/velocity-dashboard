@@ -229,6 +229,7 @@ module.exports = React.createClass
       </Modal>
 
       <Dashboard
+        className={'home-page'}
         widgets={widgets}
         menu={menu}
         onWidgetsChange={@widgetsChange}

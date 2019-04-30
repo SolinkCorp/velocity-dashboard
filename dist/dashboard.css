@@ -1,51 +1,6 @@
 .dashboard {
-  background: #ececec;
-  overflow-y: auto;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-.dashboard .edit-button,
-.dashboard .move-button {
-  border-radius: 60px;
-  cursor: pointer;
-  height: 60px;
-  line-height: 60px;
-  position: fixed;
-  right: 26px;
-  text-align: center;
-  width: 60px;
-  z-index: 2;
-}
-.dashboard .edit-button .zmdi,
-.dashboard .move-button .zmdi {
-  color: white;
-  font-size: 25pt;
-  line-height: 60px;
-}
-.dashboard .edit-button {
-  background-color: #2980b9;
-  box-shadow: 4px 6px 6px #b7b7b7;
-  top: 70px;
-}
-.dashboard .edit-button.editing {
-  box-shadow: 1px 1px 6px #b7b7b7;
-}
-.dashboard .move-button {
-  background-color: #848484;
-  box-shadow: 4px 6px 6px #b7b7b7;
-  top: 145px;
-}
-.dashboard .move-button.moving {
-  box-shadow: 1px 1px 6px #b7b7b7;
-}
-.dashboard .dashboard-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow-y: auto;
-}
-.dashboard.editing .dashboard-container {
-  bottom: 200px;
+  color: #888;
+  position: relative;
 }
 .dashboard .dashboard-content {
   margin: 18px auto;
@@ -54,22 +9,11 @@
 .dashboard .dashboard-content.columns-1 .widget {
   width: 100%;
 }
-.dashboard .title {
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  padding: 8px 14px;
-  vertical-align: bottom;
-  font-size: 19pt;
-  text-transform: uppercase;
-  color: gray;
-}
 .dashboard .widget {
-  background: white;
-  box-shadow: 1px 1px 5px #b7b7b7;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   display: inline-block;
   position: absolute;
   box-sizing: border-box;
@@ -78,39 +22,18 @@
   transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
 }
 .dashboard .widget .widget-inner {
-  overflow: hidden;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
-.dashboard .widget .edit-widget-button {
-  position: absolute;
-  right: 30px;
-  top: 10px;
-  color: #a7a7a7;
-  cursor: pointer;
-}
-.dashboard .widget .edit-widget-button.close-button {
-  color: #2980b9;
-  top: 6px;
-  right: 13px;
-  z-index: 11;
-}
-.dashboard .widget .hide-widget-button {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: #a7a7a7;
-  cursor: pointer;
-}
 .dashboard .widget .widgetTitle {
   position: absolute;
   z-index: 1;
   font-size: 18px;
   padding: 10px;
-  color: gray;
+  color: #888;
 }
 .dashboard .widget .widgetBody {
   position: absolute;
@@ -128,40 +51,147 @@
   bottom: 0;
 }
 .dashboard .widget .background-watermark {
-  font-size: 268px;
-  position: absolute;
-  bottom: -34px;
-  right: -43px;
+  bottom: 0;
   color: rgba(0, 0, 0, 0.06);
-}
-.dashboard .widget .dragbar {
-  color: #a7a7a7;
-  margin: 7px;
+  font-size: 188px;
   position: absolute;
   right: 0;
-  top: 0;
-  z-index: 2;
 }
-.dashboard .widget.draggable {
+.dashboard .widget header.widget-header {
+  box-sizing: border-box;
+  height: calc(35px);
+  padding: 7px;
+  width: 100%;
+  z-index: 1000;
+}
+.dashboard .widget header.widget-header .widget-title {
+  color: #888;
+  display: inline-block;
+  line-height: calc(23px);
+  margin: 0;
+  padding: 0;
+}
+.dashboard .widget header.widget-header section.action-bar {
+  height: 21px;
+  float: right;
+}
+.dashboard .widget header.widget-header section.action-bar .zmdi {
+  display: inline-block;
+  min-width: 15px;
+  text-align: center;
+}
+.dashboard .widget header.widget-header section.action-bar a {
+  cursor: pointer;
+  display: inline-block;
+  pointer-events: all;
+  position: relative;
+  color: #2980b9;
+}
+.dashboard .widget header.widget-header section.action-bar a:hover,
+.dashboard .widget header.widget-header section.action-bar a:focus {
+  color: #0DBEBB;
+}
+.dashboard .widget header.widget-header section.action-bar > .action {
+  margin-left: 7px;
+  position: relative;
+}
+.dashboard .widget header.widget-header section.action-bar .info,
+.dashboard .widget header.widget-header section.action-bar .menu {
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.175);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.175);
+  display: none;
+  float: left;
+  font-size: 12px;
+  list-style: none;
+  margin: 2px 0 0;
+  min-width: 120px;
+  padding: 5px 7px;
+  position: absolute;
+  right: calc(-19px + 50%);
+  text-align: left;
+  top: 100%;
+  z-index: 1000;
+}
+.dashboard .widget header.widget-header section.action-bar .info.active,
+.dashboard .widget header.widget-header section.action-bar .menu.active {
+  display: block;
+}
+.dashboard .widget header.widget-header section.action-bar .info:before,
+.dashboard .widget header.widget-header section.action-bar .menu:before,
+.dashboard .widget header.widget-header section.action-bar .info:after,
+.dashboard .widget header.widget-header section.action-bar .menu:after {
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 7px solid #ccc;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  content: '';
+  display: inline-block;
+  right: 11px;
+  position: absolute;
+  top: -7px;
+}
+.dashboard .widget header.widget-header section.action-bar .info:after,
+.dashboard .widget header.widget-header section.action-bar .menu:after {
+  border-bottom: 6px solid #fff;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  right: 12px;
+  top: -6px;
+}
+.dashboard .widget header.widget-header section.action-bar .info a,
+.dashboard .widget header.widget-header section.action-bar .menu a {
+  display: block;
+  padding: 4px 7px;
+}
+.dashboard .widget header.widget-header section.action-bar .info a:hover,
+.dashboard .widget header.widget-header section.action-bar .menu a:hover,
+.dashboard .widget header.widget-header section.action-bar .info a:focus,
+.dashboard .widget header.widget-header section.action-bar .menu a:focus {
+  background: #2980b9;
+  color: #fff;
+}
+.dashboard .widget header.widget-header section.action-bar .menu {
+  padding: 4px 0;
+}
+.dashboard .widget .draggable {
   cursor: move;
 }
-.dashboard .widget.draggable * {
+.dashboard .widget .draggable * {
   cursor: move;
   pointer-events: none;
 }
-.dashboard .widget.draggable :nth-child(2) {
-  filter: blur(1px) grayscale(60%);
-  opacity: 0.8;
+.dashboard .widget .draggable config-comp,
+.dashboard .widget .draggable input,
+.dashboard .widget .draggable textarea,
+.dashboard .widget .draggable form,
+.dashboard .widget .draggable select,
+.dashboard .widget .draggable a,
+.dashboard .widget .draggable button,
+.dashboard .widget .draggable .button {
+  cursor: default;
+  pointer-events: all;
 }
-.dashboard .widget.draggable:hover {
-  outline: 3px solid #2980b9;
+.dashboard .widget.is-dragging:hover {
+  outline: 5px solid #2980b9;
 }
 .dashboard .widget .drop-prompt {
   content: ' ';
   position: absolute;
   top: 0;
   left: -12px;
-  border-left: 4px solid yellow;
+  background: #A9F6F5;
+  width: 10px;
+}
+.dashboard .widget .drag-filler {
+  background: #e0e0e0;
+  display: block;
+  height: calc(100% - 35px);
 }
 .dashboard .add-widget-panel {
   position: absolute;
@@ -215,12 +245,13 @@
   display: block;
 }
 .dashboard .widget-preview .add-icon {
-  position: absolute;
-  font-size: 31pt;
-  text-align: center;
-  right: 8px;
   bottom: 8px;
   color: #27ae60;
+  font-size: 31pt;
+  position: absolute;
+  right: 8px;
+  text-align: center;
+  display: none;
 }
 .dashboard .widget-preview .default-preview {
   text-align: center;
