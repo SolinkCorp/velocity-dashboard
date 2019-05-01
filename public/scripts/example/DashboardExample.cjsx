@@ -1,7 +1,6 @@
 React = require 'react'
 {Dashboard, Widget, Config, Content} = require '../dashboard'
 weatherWidget = require './weatherWidget'
-_ = require 'underscore'
 pieChart = require './PieChartExample'
 barChart = require './BarChartExample'
 activityWidget = require './ActivityExample'
@@ -215,29 +214,30 @@ module.exports = React.createClass
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 style={{ marginTop: 0, fontSize: 15 }}>Select Widget to Add</h2>
+        <h2 style={ marginTop: 0, fontSize: 15 }>Select Widget to Add</h2>
         <section>
           <select id="widgets-selector" onChange={@setWidgetToAdd}>
             <option value={null}>Select a widget</option>
             {modalOptions}
           </select>
         </section>
-        <section style={{ textAlign: 'right', marginTop: 20 }}>
+        <section style={ textAlign: 'right', marginTop: 20 }>
           <button onClick={@addWidget}>Add</button>
           <button onClick={@toggleModal}>Cancel</button>
         </section>
       </Modal>
 
-      <Dashboard
-        className={'home-page'}
-        widgets={widgets}
-        menu={menu}
-        onWidgetsChange={@widgetsChange}
-        widgetHeight={280}
-        widgetWidth={280}
-        widgetMargin={16}
-        maxColumns={8}
-      >
-        {widgetComponents}
-      </Dashboard>
+      <section style={ padding: 20 }>
+        <Dashboard
+          className={'home-page'}
+          widgets={widgets}
+          menu={menu}
+          onWidgetsChange={@widgetsChange}
+          widgetHeight={280}
+          widgetWidth={280}
+          widgetMargin={16}
+        >
+          {widgetComponents}
+        </Dashboard>
+      </section>
     </main>

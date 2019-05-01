@@ -3,22 +3,25 @@
   position: relative;
 }
 .dashboard .dashboard-content {
+  display: grid;
+  grid-auto-flow: dense;
   margin: 0;
   position: relative;
+  transition: grid-template-columns 0.25s, grid-template-rows 0.25s;
+  width: 100%;
 }
 .dashboard .dashboard-content.columns-1 .widget {
-  width: 100%;
+  grid-column: span 1 !important;
 }
 .dashboard .widget {
   background: #fff;
-  border: 1px solid #ccc;
   border-radius: 3px;
+  border: 1px solid #ccc;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
-  display: inline-block;
-  position: absolute;
   box-sizing: border-box;
-  margin-bottom: 30px;
+  display: inline-block;
   padding: 16px;
+  position: relative;
   transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
 }
 .dashboard .widget .widget-inner {

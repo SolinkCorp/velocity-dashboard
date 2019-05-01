@@ -56,36 +56,42 @@ Widget = React.createClass
 
   render: ->
     {
-      index,
-      height,
-      width,
+      boardWidth,
       col,
-      row,
       config,
-      onHide,
-      contentComp,
-      sizeConfig,
-      columnCount,
+      connectDragPreview,
       connectDragSource,
       connectDropTarget,
-      connectDragPreview,
+      contentComp,
+      height,
+      index,
       isDragging,
       isOver,
-      widgetTitle,
+      onHide,
+      row,
+      sizeConfig,
       widgetDescription,
       widgetMenu,
+      widgetTitle,
+      width,
     } = @props
     { showMenu, showInfo, isReady } = @state
 
     { widgetHeight, widgetWidth, widgetMargin } = sizeConfig
     width = config?.width or width or 1
     height = config?.height or height or 1
+    promptHeight = height * (widgetHeight + widgetMargin) - widgetMargin
+
+    # Ensure widget only spans as many columns as are available, at most
+    widgetSpan = width
+    spanWidth = widgetSpan * (widgetWidth + widgetMargin) - widgetMargin
+    while 0 < boardWidth < spanWidth
+      widgetSpan--
+      spanWidth = widgetSpan * (widgetWidth + widgetMargin) - widgetMargin
 
     styles =
-      height: height * (widgetHeight + widgetMargin) - widgetMargin
-      width: if columnCount is 1 then '100%' else width * (widgetWidth + widgetMargin) - widgetMargin
-      left: Math.max(0, col * (widgetWidth + widgetMargin))
-      top: row * (widgetHeight + widgetMargin)
+      gridRow: "span #{height}"
+      gridColumn: "span #{widgetSpan}"
 
     classes = ['widget']
     classes.push 'is-dragging' if isDragging
@@ -100,7 +106,7 @@ Widget = React.createClass
       <div className={classes.join(' ')} style={styles}>
         {
           if isOver
-            <div className='drop-prompt' style={height: styles.height}/>
+            <div className='drop-prompt' style={height: promptHeight}/>
         }
         <div className='widget-inner'>
           {

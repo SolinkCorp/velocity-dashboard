@@ -16,28 +16,14 @@ body {
 }
 
 .weather-example {
-    .city {
-        font-size: 18pt;
-        padding: 10px;
-        position: absolute;
-        color: gray;
-    }
     .wi {
-        font-size: 70pt;
-        text-align: center;
-        width: 100%;
         color: @brandColor;
-        margin-top: 50%;
+        font-size: 70pt;
+        position: absolute;
+        text-align: center;
+        top: 50%;
         transform: translateY(-50%);
-    }
-    &.preview {
-        .city {
-            font-size: 14pt;
-        }
-        .wi {
-            font-size: 50pt;
-            margin-top: 33%;
-        }
+        width: 100%;
     }
 }
 
@@ -59,15 +45,6 @@ body {
     .text {
         font-size: 12pt;
         text-align: center;
-    }
-    &.preview {
-        .days {
-            padding-top: 0;
-            font-size: 55pt;
-        }
-        .text {
-            font-size: 9pt;
-        }
     }
 }
 
@@ -101,10 +78,6 @@ body {
     width: 100%;
     margin-top: 26px;
     color: #5e89a7;
-    &.preview {
-        font-size: 97px;
-        margin-top: -4px;
-    }
 }
 
 

@@ -3,22 +3,25 @@
   position: relative;
 }
 .dashboard .dashboard-content {
+  display: grid;
+  grid-auto-flow: dense;
   margin: 0;
   position: relative;
+  transition: grid-template-columns 0.25s, grid-template-rows 0.25s;
+  width: 100%;
 }
 .dashboard .dashboard-content.columns-1 .widget {
-  width: 100%;
+  grid-column: span 1 !important;
 }
 .dashboard .widget {
   background: #fff;
-  border: 1px solid #ccc;
   border-radius: 3px;
+  border: 1px solid #ccc;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
-  display: inline-block;
-  position: absolute;
   box-sizing: border-box;
-  margin-bottom: 30px;
+  display: inline-block;
   padding: 16px;
+  position: relative;
   transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
 }
 .dashboard .widget .widget-inner {
@@ -980,26 +983,14 @@ body {
   padding: 5px 13px;
   font-size: 20px;
 }
-.weather-example .city {
-  font-size: 18pt;
-  padding: 10px;
-  position: absolute;
-  color: gray;
-}
 .weather-example .wi {
-  font-size: 70pt;
-  text-align: center;
-  width: 100%;
   color: #2580bc;
-  margin-top: 50%;
+  font-size: 70pt;
+  position: absolute;
+  text-align: center;
+  top: 50%;
   transform: translateY(-50%);
-}
-.weather-example.preview .city {
-  font-size: 14pt;
-}
-.weather-example.preview .wi {
-  font-size: 50pt;
-  margin-top: 33%;
+  width: 100%;
 }
 .weather-example-config {
   padding: 11px;
@@ -1017,13 +1008,6 @@ body {
 .days-since-last .text {
   font-size: 12pt;
   text-align: center;
-}
-.days-since-last.preview .days {
-  padding-top: 0;
-  font-size: 55pt;
-}
-.days-since-last.preview .text {
-  font-size: 9pt;
 }
 .activity-feed {
   font-size: 90%;
@@ -1048,10 +1032,6 @@ body {
   width: 100%;
   margin-top: 26px;
   color: #5e89a7;
-}
-.zmdi-thumb_up.preview {
-  font-size: 97px;
-  margin-top: -4px;
 }
 .wi:before {
   position: relative;

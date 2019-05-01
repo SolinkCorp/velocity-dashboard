@@ -1,7 +1,4 @@
 React = require 'react'
-Title = require './Title'
-Layout = require './Layout'
-componentWidthMixin = require 'react-component-width-mixin'
 _ = require 'underscore'
 ReactCSSTransitionGroup = require 'react-addons-css-transition-group'
 {DragDropContext} = require 'react-dnd'
@@ -15,33 +12,46 @@ defaults =
 Dashboard = React.createClass
   displayName: 'Dashboard'
 
-  mixins: [componentWidthMixin]
+  getInitialState: ->
+    boardWidth: 0
 
-  # optimize re-render to exclude width changes unless they affect column count
-  shouldComponentUpdate: (nextProps, nextState) ->
-    @layout.reset(nextState.componentWidth)
-    cc1 = @layout.columnCount()
-    @layout.reset(@state.componentWidth)
-    cc2 = @layout.columnCount()
-    nextProps != @props or cc1 != cc2
+  componentDidMount: ->
+    window.addEventListener 'resize', @getBoardWidth, false;
+    @setBoardWidth()
 
-  childComponentsForConfig: (components, widgets, sizeConfig, columnCount) ->
+  componentDidUpdate: ->
+    @setBoardWidth()
+
+  componentWillUnmount: ->
+    window.removeEventListener 'resize', @getBoardWidth;
+
+  getBoardWidth: ->
+    # Debounce the resizing calculation
+    clearTimeout @resizeTimeout
+    @resizeTimeout = setTimeout @setBoardWidth, 250
+
+  setBoardWidth: ->
+    boardWidth = if !@refs.dashboard then 0 else @refs.dashboard.getBoundingClientRect().width
+    if @state.boardWidth != boardWidth
+      @setState boardWidth: boardWidth
+
+  childComponentsForConfig: (components, widgets, sizeConfig) ->
     { menu } = @props
+    { boardWidth } = @state
     componentsById = getComponentsById(components)
     instances = widgets.map (widget, index) =>
       if componentsById[widget.widgetId]
-        withPositions = @layout.setWidgetPosition(componentsById[widget.widgetId], widget.config)
-        React.cloneElement withPositions,
+        React.cloneElement componentsById[widget.widgetId],
           key: index
           onHide: => @hideWidget(index)
           config: widget.config
           index: index
           sizeConfig: sizeConfig
-          columnCount: columnCount
           onDrop: @moveWidget
           widgetTitle: if widget.config then widget.config.title else null
           widgetDescription: widget.description
           widgetMenu: menu
+          boardWidth: boardWidth
     _(instances).compact()
 
   hideWidget: (index) ->
@@ -76,23 +86,21 @@ Dashboard = React.createClass
       widgetHeight = defaults.widgetHeight,
       widgetWidth = defaults.widgetWidth,
       widgetMargin = defaults.margin,
-      maxColumns = 5,
       componentWidthForTesting,
     } = @props
-    # {moveMode, componentWidth} = @state
-    { componentWidth } = @state
-    sizeConfig = {widgetHeight, widgetWidth, widgetMargin, maxColumns}
+    sizeConfig = {widgetHeight, widgetWidth, widgetMargin}
 
-    @layout = layout = new Layout(sizeConfig)
-    layout.reset(componentWidthForTesting or componentWidth)
-    childrenForCurrentConfig = @childComponentsForConfig(children, widgets, sizeConfig, layout.columnCount())
+    childrenForCurrentConfig = @childComponentsForConfig(children, widgets, sizeConfig)
 
-    contentWidth = layout.columnCount() * (widgetWidth + widgetMargin) - widgetMargin
-    if layout.columnCount() is 1
-        contentWidth = '90%'
-
-    <div className={"dashboard #{className}"}>
-      <section className={"dashboard-content columns-#{layout.columnCount()}"} style={width: contentWidth}>
+    <div className={"dashboard #{className}"} ref="dashboard">
+      <section
+        className={"dashboard-content"}
+        style={
+          gridGap: widgetMargin
+          gridAutoRows: widgetHeight
+          gridTemplateColumns: "repeat(auto-fill, minmax(#{widgetWidth}px, 1fr))"
+        }
+      >
         {childrenForCurrentConfig}
       </section>
       <ReactCSSTransitionGroup
