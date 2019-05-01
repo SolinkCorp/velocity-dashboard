@@ -1,51 +1,50 @@
-const webpack = require("webpack")
-const _ = require("lodash")
-const path = require("path")
+const webpack = require('webpack');
+const _ = require('underscore');
 
 const base = {
-    mode: "production",
     module: {
-        rules: [
-            { test: /.json/, loader: "json-loader", exclude: /node_modules/ },
-            { test: /.jsx$/, loader: "babel-loader", exclude: /node_modules/ }
+        loaders: [
+            {test: /.json/, loader: 'json'},
+            {test: /.coffee$/, loader: 'coffee'},
+            {test: /.cjsx$/, loaders: ['coffee', 'cjsx']}
         ]
     },
     resolve: {
-        extensions: [".js", ".json", ".jsx"]
+        extensions: [
+            '',
+            '.js',
+            '.json',
+            '.coffee',
+            '.cjsx'
+        ]
     },
-    devtool: "source-map"
-}
+};
 
 const example = _.extend({}, base, {
     entry: {
-        example: [
-            "@babel/polyfill",
-            `${path.dirname(__filename)}/public/scripts/example/main`
-        ]
+        example: "./public/scripts/example/main"
     },
     output: {
-        path: `${path.dirname(__filename)}/dist/`,
-        filename: "[name].js",
-        libraryTarget: "var"
+        path: "./dist/",
+        filename: '[name].js',
+        libraryTarget: 'var'
     }
-})
+});
 
 const lib = _.extend({}, base, {
     entry: {
-        main: [
-            `${path.dirname(__filename)}/public/scripts/dashboard/index`
-        ]
+        main: ["./public/scripts/dashboard/index"]
     },
     output: {
-        path: `${path.dirname(__filename)}/dist/`,
-        filename: "[name].js",
-        libraryTarget: "commonjs2"
+        path: "./dist/",
+        filename: '[name].js',
+        libraryTarget: 'commonjs2'
     },
     externals: {
-        react: "react",
-        "react-dom": "react-dom",
-        "react-transition-group": "react-transition-group"
+        'react': 'react',
+        'react-dom' : 'react-dom',
+        'react-addons-css-transition-group' : 'react-addons-css-transition-group'
     }
-})
+});
 
-module.exports = [example, lib]
+module.exports = [example, lib];

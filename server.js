@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
         noInfo: true, // Comment this out for more verbose webpack information
         publicPath: `${appBaseUrl}/scripts/`
     }
-    
+
     const compiler = webpack(require('./webpack.dev.config'))
     app.use(webpackDevMiddleware(compiler, middlewareOptions));
 
@@ -41,7 +41,7 @@ const generateHtml = () => `
     </head>
             <body>
                 <div class="nav"></div>
-                <div class="contents"></div>
+                <div id="app" class="contents"></div>
                 <script type="text/javascript" src="${appBaseUrl}/scripts/example.js"></script>
             </body>
     </html>
