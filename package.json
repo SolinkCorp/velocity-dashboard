@@ -1,5 +1,5 @@
 {
-  "name": "velocity-dashboard",
+  "name": "@solink/velocity-dashboard",
   "version": "1.4.1",
   "license": "BSD-3-Clause",
   "scripts": {
@@ -15,7 +15,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git@github.com:MonsantoCo/velocity-dashboard.git"
+    "url": "git@github.com:SolinkCorp/velocity-dashboard.git"
   },
   "main": "./dist/main",
   "dependencies": {
