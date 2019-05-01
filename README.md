@@ -15,65 +15,38 @@ Velocity Dashboard is a React component for presenting interactive dashboard com
 
 ### Links
 
-* [Interactive Demo](https://monsantoco.github.io/velocity-dashboard/)
+* [Interactive Demo](https://monsantoco.github.io/velocity-dashboard/dist/example.html)
 * [Developers Notes](DEVELOPERS.md)
 
 ## Usage
-For React 15 & older use 
-
-```shell
-npm i -D velocity-dashboard@1.4.0
-```
-
-For React 16+ use
-
-```shell
-npm i -D velocity-dashboard@2.0.0
-```
 
 ### Prerequisites
 
 The default style assumes font-awesome is installed.
 
 Include the velocity-dashboard css in your page.
-```less
-@import (inline) "../../node_modules/velocity-dashboard/dist/dashboard.css";
-```
-
-If you are using charts then include chartist css
-```less
-@import (inline) "../../node_modules/chartist/dist/chartist.css";
-```
-
 
 ### Dashboard
 
 For best results, use CSS to give the Dashboard a definable size (either via absolute positioning or by setting height/width).
 
-```jsx
-class MainDashboard extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state ={
-            config: [
-                {
-                    widgetId: 'weather'
-                    instanceId: '1'
-                    config: location: 'orl'
-                }
-            ]
+```cjsx
+getInitialState: ->
+    config: [
+        {
+            widgetId: 'weather'
+            instanceId: '1'
+            config: location: 'orl'
         }
-    }
+    ]
 
-    render(){
-        return <Dashboard className='example-dash' title='Dashboard Title' 
-                config={this.state.config} onConfigChange={this.configChange}>
-            <Widget id='weather' contentComp={weatherWidget.Content} 
-                configComp={weatherWidget.Config} previewComp={weatherWidget.Preview} />
-            ...
-        </Dashboard>
-    }
-}
+render: ->
+    <Dashboard className='example-dash' title='Dashboard Title' 
+            config={@state.config} onConfigChange={@configChange}>
+        <Widget id='weather' contentComp={weatherWidget.Content} 
+            configComp={weatherWidget.Config} previewComp={weatherWidget.Preview} />
+        ...
+    </Dashboard>
 ```
 
 #### Properties
@@ -88,7 +61,6 @@ class MainDashboard extends React.Component {
 | widgetMargin     | 15  | gap between widgets in pixels |
 | titleHeight      | 50  | height of the title |
 | maxColumns       | 5   | when displayed on a high-resolution (wide) screen, limit the number of columns to this value (for usability/ascetics) |
-| doneButtonClass  |  -  | custom class to override the 'done' button rendered on edit widget config e.g. 'btn btn-primary' |
     
 #### config
 
@@ -102,17 +74,10 @@ class MainDashboard extends React.Component {
 
 Each Widget is simply three components representing the three states of a component and some configuration details:
 
-```jsx
+```cjsx
 <Widget id='days-since-accident'
-    contentComp={() => <div className='days-since-last'>
-        <div className='days'>13</div>
-        <div className='text'>days since last accident</div>
-    </div>}
-    previewComp={ () => <div className='days-since-last preview'>
-        <div className='days'>100</div>
-        <div className='text'>days since last accident</div>
-        </div>
-    }/>
+    contentComp={-> <div className='days-since-last'><div className='days'>13</div><div className='text'>days since last accident</div></div>}
+    previewComp={-> <div className='days-since-last preview'><div className='days'>100</div><div className='text'>days since last accident</div></div>}/>
 ```
 
 #### Properties

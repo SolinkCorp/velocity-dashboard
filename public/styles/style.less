@@ -8,44 +8,22 @@ body {
 }
 
 .app-navbar {
-    background: #2980b9;
+    background: @brandColor;
     height: 40px;
     color: white;
     padding: 5px 13px;
     font-size: 20px;
 }
 
-.example-dash {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: @appTitleBarHeight;
-    bottom: 0;
-    padding-top: 50px;
-}
-
 .weather-example {
-    .city {
-        font-size: 18pt;
-        padding: 10px;
-        position: absolute;
-        color: gray;
-    }
     .wi {
+        color: @brandColor;
         font-size: 70pt;
-        padding-top: 80px;
+        position: absolute;
         text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
         width: 100%;
-        color: #2980b9;
-    }
-    &.preview {
-        .city {
-            font-size: 14pt;
-        }
-        .wi {
-            font-size: 50pt;
-            padding-top: 45px;
-        }
     }
 }
 
@@ -67,15 +45,6 @@ body {
     .text {
         font-size: 12pt;
         text-align: center;
-    }
-    &.preview {
-        .days {
-            padding-top: 0;
-            font-size: 55pt;
-        }
-        .text {
-            font-size: 9pt;
-        }
     }
 }
 
@@ -103,14 +72,44 @@ body {
     }
 }
 
-.fa-thumbs-up {
+.zmdi-thumb_up {
     font-size: 149px;
     text-align: center;
     width: 100%;
     margin-top: 26px;
     color: #5e89a7;
-    &.preview {
-        font-size: 97px;
-        margin-top: -4px;
+}
+
+
+.wi:before {
+  position: relative;
+  top: 2px;
+}
+.wi-day-cloudy:before {
+  top: 5px;
+}
+.wi-day-sunny:before {
+  top: 0;
+}
+
+.nav {
+  display: none;
+}
+
+main.example-dash-wrapper {
+  background: #f4f4f4;
+  height: 100vh;
+  width: 100vw;
+
+  & > header {
+    padding: 20px;
+    text-align: right;
+
+    button {
+      background: @brandColor;
+      color: #fff;
+      min-width: 100px;
+      padding: 12px 18px;
     }
+  }
 }
