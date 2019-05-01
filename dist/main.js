@@ -54,9 +54,7 @@ module.exports =
 
 	module.exports = {
 	  Dashboard: __webpack_require__(2),
-	  Widget: __webpack_require__(170),
-	  Config: __webpack_require__(172),
-	  Content: __webpack_require__(173)
+	  Widget: __webpack_require__(170)
 	};
 
 
@@ -10763,48 +10761,6 @@ module.exports =
 	    };
 	  }
 	};
-
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Config, React;
-
-	React = __webpack_require__(3);
-
-	Config = function(arg) {
-	  var children;
-	  children = arg.children;
-	  return React.createElement("div", {
-	    "className": 'config'
-	  }, children);
-	};
-
-	Config.displayName = 'Config';
-
-	module.exports = Config;
-
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Content, React;
-
-	React = __webpack_require__(3);
-
-	Content = function(arg) {
-	  var children;
-	  children = arg.children;
-	  return React.createElement("div", {
-	    "className": 'content'
-	  }, children);
-	};
-
-	Content.displayName = 'Content';
-
-	module.exports = Content;
 
 
 /***/ }

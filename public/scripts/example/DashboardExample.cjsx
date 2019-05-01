@@ -1,5 +1,5 @@
 React = require 'react'
-{Dashboard, Widget, Config, Content} = require '../dashboard'
+{Dashboard, Widget} = require '../dashboard'
 weatherWidget = require './weatherWidget'
 pieChart = require './PieChartExample'
 barChart = require './BarChartExample'
