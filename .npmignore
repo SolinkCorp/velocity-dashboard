@@ -40,8 +40,9 @@ benchmarks/graphs
 /public
 /test
 /views
-server.coffee
+server.js
 webpack*
 index.html
 DEVELOPERS.md
 DEVELOPERS.md
+docs
